@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import colors from '../../../constants/colors';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {toastMessage, errorHandler} from '../../../helpers';
@@ -25,6 +24,7 @@ import {
 import {INavigationProp} from '../../../interfaces';
 import {app} from '../../../constants/app';
 import FullPageLoader from '../../full-page-loader';
+import {appColors} from '../../../constants/colors';
 const {width} = Dimensions.get('window');
 function Register({navigation}: INavigationProp) {
   const dispatch = useDispatch();
@@ -107,19 +107,19 @@ function Register({navigation}: INavigationProp) {
   return (
     <KeyboardAwareScrollView
       style={{
-        backgroundColor: colors.BACKGROUND_COLOR,
+        backgroundColor: appColors.BACKGROUND_COLOR,
       }}>
-      <StatusBar backgroundColor={colors.BLUE} barStyle="light-content" />
+      <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colors.BACKGROUND_COLOR,
+          backgroundColor: appColors.BACKGROUND_COLOR,
         }}>
         <View
           style={{
-            backgroundColor: colors.BLUE,
+            backgroundColor: appColors.BLUE,
             padding: 10,
             height: 50,
             width: '100%',
@@ -131,12 +131,12 @@ function Register({navigation}: INavigationProp) {
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <View
                 style={{
-                  backgroundColor: colors.BACKGROUND_COLOR,
+                  backgroundColor: appColors.BACKGROUND_COLOR,
                   borderRadius: 10,
                   // padding: 10,
                 }}>
                 <Image
-                  source={require('../../../assets/logo.png')}
+                  source={require('../../../../assets/logo.png')}
                   style={{width: 90, height: 90, borderRadius: 10}}
                 />
               </View>
@@ -147,17 +147,17 @@ function Register({navigation}: INavigationProp) {
           {otpValidated ? (
             <>
               <View style={{marginVertical: 10}}>
-                <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Names
                 </Text>
                 <TextInput
                   style={{
-                    backgroundColor: colors.WHITE,
+                    backgroundColor: appColors.WHITE,
                     marginTop: 10,
                     borderRadius: 5,
                     padding: 10,
                     borderWidth: 1,
-                    borderColor: colors.BORDER_COLOR,
+                    borderColor: appColors.BORDER_COLOR,
                   }}
                   placeholder="Enter your full names"
                   onChangeText={text => setNames(text)}
@@ -165,7 +165,7 @@ function Register({navigation}: INavigationProp) {
                 />
               </View>
               <View style={{marginVertical: 10}}>
-                <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Email
                 </Text>
                 <Text
@@ -175,23 +175,23 @@ function Register({navigation}: INavigationProp) {
                     borderRadius: 5,
                     padding: 10,
                     borderWidth: 1,
-                    borderColor: colors.BORDER_COLOR,
+                    borderColor: appColors.BORDER_COLOR,
                   }}>
                   {email}
                 </Text>
               </View>
               <View style={{marginVertical: 10}}>
-                <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Password
                 </Text>
                 <TextInput
                   style={{
-                    backgroundColor: colors.WHITE,
+                    backgroundColor: appColors.WHITE,
                     marginTop: 10,
                     borderRadius: 5,
                     padding: 10,
                     borderWidth: 1,
-                    borderColor: colors.BORDER_COLOR,
+                    borderColor: appColors.BORDER_COLOR,
                   }}
                   secureTextEntry
                   placeholder="Enter your password"
@@ -200,17 +200,17 @@ function Register({navigation}: INavigationProp) {
                 />
               </View>
               <View style={{marginVertical: 10}}>
-                <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Confirm password
                 </Text>
                 <TextInput
                   style={{
-                    backgroundColor: colors.WHITE,
+                    backgroundColor: appColors.WHITE,
                     marginTop: 10,
                     borderRadius: 5,
                     padding: 10,
                     borderWidth: 1,
-                    borderColor: colors.BORDER_COLOR,
+                    borderColor: appColors.BORDER_COLOR,
                   }}
                   secureTextEntry
                   placeholder="Confirm password"
@@ -221,7 +221,7 @@ function Register({navigation}: INavigationProp) {
               {isSubmitting ? (
                 <View
                   style={{
-                    backgroundColor: colors.BLUE,
+                    backgroundColor: appColors.BLUE,
                     padding: 15,
                     marginTop: 10,
                     borderRadius: 5,
@@ -229,10 +229,10 @@ function Register({navigation}: INavigationProp) {
                     alignItems: 'center',
                     flexDirection: 'row',
                   }}>
-                  <ActivityIndicator color={colors.WHITE} />
+                  <ActivityIndicator color={appColors.WHITE} />
                   <Text
                     style={{
-                      color: colors.WHITE,
+                      color: appColors.WHITE,
                       textAlign: 'center',
                       fontSize: 18,
                       marginLeft: 10,
@@ -244,14 +244,14 @@ function Register({navigation}: INavigationProp) {
                 <Pressable onPress={() => handleSubmit()}>
                   <View
                     style={{
-                      backgroundColor: colors.BLUE,
+                      backgroundColor: appColors.BLUE,
                       padding: 15,
                       marginTop: 10,
                       borderRadius: 5,
                     }}>
                     <Text
                       style={{
-                        color: colors.WHITE,
+                        color: appColors.WHITE,
                         textAlign: 'center',
                         fontSize: 18,
                       }}>
@@ -264,17 +264,17 @@ function Register({navigation}: INavigationProp) {
           ) : (
             <>
               <View style={{marginVertical: 10}}>
-                <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Email
                 </Text>
                 <TextInput
                   style={{
-                    backgroundColor: colors.WHITE,
+                    backgroundColor: appColors.WHITE,
                     marginTop: 10,
                     borderRadius: 5,
                     padding: 10,
                     borderWidth: 1,
-                    borderColor: colors.BORDER_COLOR,
+                    borderColor: appColors.BORDER_COLOR,
                   }}
                   placeholder="Email address"
                   onChangeText={text => setEmail(text)}
@@ -282,15 +282,17 @@ function Register({navigation}: INavigationProp) {
                 />
               </View>
               <View style={{marginVertical: 10}}>
-                <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>OTP</Text>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+                  OTP
+                </Text>
                 <TextInput
                   style={{
-                    backgroundColor: colors.WHITE,
+                    backgroundColor: appColors.WHITE,
                     marginTop: 10,
                     borderRadius: 5,
                     padding: 10,
                     borderWidth: 1,
-                    borderColor: colors.BORDER_COLOR,
+                    borderColor: appColors.BORDER_COLOR,
                   }}
                   secureTextEntry
                   placeholder="Enter your OTP"
@@ -303,14 +305,14 @@ function Register({navigation}: INavigationProp) {
               <Pressable onPress={() => handleVerifyOtp()}>
                 <View
                   style={{
-                    backgroundColor: colors.BLUE,
+                    backgroundColor: appColors.BLUE,
                     padding: 15,
                     marginTop: 10,
                     borderRadius: 5,
                   }}>
                   <Text
                     style={{
-                      color: colors.WHITE,
+                      color: appColors.WHITE,
                       textAlign: 'center',
                       fontSize: 18,
                     }}>
@@ -322,7 +324,7 @@ function Register({navigation}: INavigationProp) {
           )}
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <View style={{marginTop: 20}}>
-              <Text style={{textAlign: 'center', color: colors.OXFORD_BLUE}}>
+              <Text style={{textAlign: 'center', color: appColors.OXFORD_BLUE}}>
                 Already have account? Login
               </Text>
             </View>

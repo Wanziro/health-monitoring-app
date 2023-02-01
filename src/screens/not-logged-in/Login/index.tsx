@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import colors from '../../../constants/colors';
+
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {errorHandler, toastMessage} from '../../../helpers';
@@ -24,6 +24,7 @@ import {
 } from '../../../actions/user';
 import {app} from '../../../constants/app';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {appColors} from '../../../constants/colors';
 
 const {width} = Dimensions.get('window');
 interface ILogin {
@@ -62,17 +63,17 @@ function Login({navigation}: ILogin) {
   }, []);
   return (
     <KeyboardAwareScrollView>
-      <StatusBar backgroundColor={colors.BLUE} barStyle="light-content" />
+      <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
       <View
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colors.BACKGROUND_COLOR,
+          backgroundColor: appColors.BACKGROUND_COLOR,
         }}>
         <View
           style={{
-            backgroundColor: colors.BLUE,
+            backgroundColor: appColors.BLUE,
             padding: 10,
             height: 150,
             width: '100%',
@@ -84,12 +85,12 @@ function Login({navigation}: ILogin) {
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <View
                 style={{
-                  backgroundColor: colors.BACKGROUND_COLOR,
+                  backgroundColor: appColors.BACKGROUND_COLOR,
                   borderRadius: 10,
                   // padding: 10,
                 }}>
                 <Image
-                  source={require('../../../assets/logo.png')}
+                  source={require('../../../../assets/logo.png')}
                   style={{width: 150, height: 150, borderRadius: 10}}
                 />
               </View>
@@ -109,15 +110,15 @@ function Login({navigation}: ILogin) {
         </View>
         <View style={{width: '90%', marginTop: 40}}>
           <View style={{marginVertical: 10}}>
-            <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>Email</Text>
+            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>Email</Text>
             <TextInput
               style={{
-                backgroundColor: colors.WHITE,
+                backgroundColor: appColors.WHITE,
                 marginTop: 10,
                 borderRadius: 5,
                 padding: 10,
                 borderWidth: 1,
-                borderColor: colors.BORDER_COLOR,
+                borderColor: appColors.BORDER_COLOR,
               }}
               placeholder="Email address"
               onChangeText={text => setEmail(text)}
@@ -126,15 +127,17 @@ function Login({navigation}: ILogin) {
             />
           </View>
           <View style={{marginVertical: 10}}>
-            <Text style={{color: colors.FOOTER_BODY_TEXT_COLOR}}>Password</Text>
+            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+              Password
+            </Text>
             <TextInput
               style={{
-                backgroundColor: colors.WHITE,
+                backgroundColor: appColors.WHITE,
                 marginTop: 10,
                 borderRadius: 5,
                 padding: 10,
                 borderWidth: 1,
-                borderColor: colors.BORDER_COLOR,
+                borderColor: appColors.BORDER_COLOR,
               }}
               secureTextEntry
               placeholder="Enter your password"
@@ -145,7 +148,7 @@ function Login({navigation}: ILogin) {
           {isSubmitting ? (
             <View
               style={{
-                backgroundColor: colors.BLUE,
+                backgroundColor: appColors.BLUE,
                 padding: 15,
                 marginTop: 10,
                 borderRadius: 5,
@@ -153,10 +156,10 @@ function Login({navigation}: ILogin) {
                 alignItems: 'center',
                 flexDirection: 'row',
               }}>
-              <ActivityIndicator color={colors.WHITE} />
+              <ActivityIndicator color={appColors.WHITE} />
               <Text
                 style={{
-                  color: colors.WHITE,
+                  color: appColors.WHITE,
                   textAlign: 'center',
                   fontSize: 18,
                   marginLeft: 10,
@@ -168,14 +171,14 @@ function Login({navigation}: ILogin) {
             <Pressable onPress={() => handleSubmit()}>
               <View
                 style={{
-                  backgroundColor: colors.BLUE,
+                  backgroundColor: appColors.BLUE,
                   padding: 15,
                   marginTop: 10,
                   borderRadius: 5,
                 }}>
                 <Text
                   style={{
-                    color: colors.WHITE,
+                    color: appColors.WHITE,
                     textAlign: 'center',
                     fontSize: 18,
                   }}>
@@ -186,7 +189,7 @@ function Login({navigation}: ILogin) {
           )}
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <View style={{marginTop: 20}}>
-              <Text style={{textAlign: 'center', color: colors.OXFORD_BLUE}}>
+              <Text style={{textAlign: 'center', color: appColors.OXFORD_BLUE}}>
                 Don't have account? Register
               </Text>
             </View>

@@ -2,16 +2,17 @@ import React from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Login from '../../screens/Login';
-import colors from '../../constants/colors';
-import Register from '../../screens/Register';
+
+import Login from '../../screens/not-logged-in/Login';
+import Register from '../../screens/not-logged-in/Register';
+import {appColors} from '../../constants/colors';
 
 const Stack = createNativeStackNavigator();
 
 function NotLoggedIn() {
   return (
     <>
-      <StatusBar backgroundColor={colors.APPBAR_HEADER_COLOR} />
+      <StatusBar backgroundColor={appColors.APPBAR_HEADER_COLOR} />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
