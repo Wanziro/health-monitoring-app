@@ -7,22 +7,29 @@ import {Pressable, View} from 'react-native';
 
 import Home from '../../../screens/users/home';
 import {appColors} from '../../../constants/colors';
+import DetectionMenu from '../../../screens/users/detection-menu';
 
 const Stack = createNativeStackNavigator();
 
 const UserRoutes = () => {
   return (
     <NavigationContainer>
-      <StatusBar
-        backgroundColor={appColors.BACKGROUND_COLOR}
-        barStyle="light-content"
-      />
+      <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
       <Stack.Navigator>
         <Stack.Screen
           name="UserHome"
           component={Home}
           options={{
-            title: 'Select Device',
+            title: 'Device Connection',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="DetectionMenu"
+          component={DetectionMenu}
+          options={{
+            title: 'subject information',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}

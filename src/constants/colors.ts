@@ -25,7 +25,7 @@ export const appColors = {
   BROWN: '#c4865a',
   BG_GRAY: '#f2f2f2',
   TEXT_COLOR: '#555555',
-  BLUE: '#0569b4',
+  BLUE: '#169bd5',
   LIGHT_BLUE: '#abc9e0',
   ORANGE: '#eb6705',
   DARK_BLUE: '#4f0fea',

@@ -5,14 +5,14 @@ import {
 } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import {appColors} from './colors';
 
-export const flexSpace = {
+export const viewFlexSpace: StyleProp<ViewStyle> = {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   flexDirection: 'row',
 };
 
-export const flexCenter = {
+export const viewFlexCenter: StyleProp<ViewStyle> = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
