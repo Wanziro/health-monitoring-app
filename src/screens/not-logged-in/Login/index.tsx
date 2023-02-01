@@ -14,7 +14,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../../constants/colors';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
-import Toast from 'react-native-toast-message';
 import {errorHandler, toastMessage} from '../../../helpers';
 import {
   resetUser,

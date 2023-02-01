@@ -1,3 +1,5 @@
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 export interface IUser {
   token: string;
   fullName: string;
@@ -13,4 +15,8 @@ export interface IAppConfig {
   backendUrl: string;
   imageUrl: string;
   imageUploadUrl: string;
+}
+
+export interface INavigationProp {
+  navigation: NativeStackNavigationProp<any>;
 }

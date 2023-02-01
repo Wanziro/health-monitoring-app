@@ -11,23 +11,22 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import colors from '../../constants/colors';
+import colors from '../../../constants/colors';
 import Axios from 'axios';
-import app, {backendUrl} from '../../constants/app';
 import {useDispatch} from 'react-redux';
-import FullPageLoader from '../full-page-loader';
-import {toastMessage, errorHandler} from '../../helpers';
+import {toastMessage, errorHandler} from '../../../helpers';
 import {
   resetUser,
-  setUserCompanyName,
   setUserEmail,
-  setUserId,
   setUserNames,
   setUserRole,
   setUserToken,
-} from '../../actions/user';
+} from '../../../actions/user';
+import {INavigationProp} from '../../../interfaces';
+import {app} from '../../../constants/app';
+import FullPageLoader from '../../full-page-loader';
 const {width} = Dimensions.get('window');
-function Register({navigation}) {
+function Register({navigation}: INavigationProp) {
   const dispatch = useDispatch();
   const [otp, setOtp] = useState('');
   const [names, setNames] = useState('');
@@ -63,7 +62,7 @@ function Register({navigation}) {
     }
 
     setIsSubmitting(true);
-    Axios.post(backendUrl + '/users/register', {
+    Axios.post(app.backendUrl + '/users/register', {
       fullName: names,
       email,
       otp,
@@ -74,8 +73,6 @@ function Register({navigation}) {
         const {email, fullName, companyName, role, id, token} = res.data;
         dispatch(setUserEmail(email));
         dispatch(setUserNames(fullName));
-        dispatch(setUserCompanyName(companyName));
-        dispatch(setUserId(id));
         dispatch(setUserRole(role));
         dispatch(setUserToken(token));
         // navigation.replace('HomeTabs1');
