@@ -63,7 +63,11 @@ function Login({navigation}: ILogin) {
   }, []);
   return (
     <KeyboardAwareScrollView>
-      <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
+      <StatusBar
+        translucent
+        backgroundColor={appColors.TRANSPARENT}
+        barStyle="dark-content"
+      />
       <View
         style={{
           flex: 1,
@@ -73,29 +77,20 @@ function Login({navigation}: ILogin) {
         }}>
         <View
           style={{
-            backgroundColor: appColors.BLUE,
             padding: 10,
             height: 150,
             width: '100%',
-            // borderBottomEndRadius: 80,
-            // borderBottomStartRadius: 80,
-            position: 'relative',
+            alignItems: 'center',
+            paddingTop: 50,
           }}>
-          <View style={{position: 'absolute', bottom: -70, width}}>
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
-              <View
-                style={{
-                  backgroundColor: appColors.BACKGROUND_COLOR,
-                  borderRadius: 10,
-                  // padding: 10,
-                }}>
-                <Image
-                  source={require('../../../assets/logo.png')}
-                  style={{width: 150, height: 150, borderRadius: 10}}
-                />
-              </View>
-            </View>
-          </View>
+          <Image
+            source={require('../../../assets/logo.png')}
+            style={{width: 150, height: 150, borderRadius: 10}}
+          />
+          <Text
+            style={{color: appColors.BLACK, fontSize: 20, fontWeight: '700'}}>
+            Login
+          </Text>
         </View>
         <View style={{marginTop: 80}}>
           {/* <Text

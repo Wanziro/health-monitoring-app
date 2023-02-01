@@ -32,6 +32,7 @@ export const appColors = {
   PURPLE: '#b862eb',
   LIGHT_GREEN_1: '#ecf4ff',
   LIGHT_GREEN_2: '#f6f8fd',
+  TRANSPARENT: 'transparent',
 
   randomColors: [
     'red',
