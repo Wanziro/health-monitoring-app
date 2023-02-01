@@ -9,14 +9,13 @@ function Navigation() {
   const {token, role} = useSelector((state: RootState) => state.user);
   return (
     <>
-      {/* {token === '' || token === undefined ? (
+      {token === '' || token === undefined ? (
         <NotLoggedIn />
       ) : role == 'user' ? (
         <UserRoutes />
       ) : (
         <AdminRoutes />
-      )} */}
-      <NotLoggedIn />
+      )}
       <Toast />
     </>
   );
