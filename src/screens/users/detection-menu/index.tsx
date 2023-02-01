@@ -6,8 +6,9 @@ import {
   commonAdminButtonTextStyles,
   viewFlexSpace,
 } from '../../../constants/styles';
+import {INavigationProp} from '../../../interfaces';
 const {width} = Dimensions.get('window');
-function DetectionMenu() {
+function DetectionMenu({navigation}: INavigationProp) {
   return (
     <ScrollView>
       <View
@@ -50,7 +51,7 @@ function DetectionMenu() {
               <Text style={{color: appColors.BLACK}}>Method Two</Text>
             </View>
             <View>
-              <Pressable>
+              <Pressable onPress={() => navigation.navigate('ChoosePatient')}>
                 <View
                   style={[
                     commonAdminButtonContainerStyles,
@@ -68,7 +69,7 @@ function DetectionMenu() {
               <Text style={{color: appColors.BLACK}}>Method Three</Text>
             </View>
             <View>
-              <Pressable>
+              <Pressable onPress={() => navigation.navigate('AddPatients')}>
                 <View
                   style={[
                     commonAdminButtonContainerStyles,

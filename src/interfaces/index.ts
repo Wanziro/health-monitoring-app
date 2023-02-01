@@ -20,3 +20,10 @@ export interface IAppConfig {
 export interface INavigationProp {
   navigation: NativeStackNavigationProp<any>;
 }
+export interface IPatientRegisterRequest {
+  names: string;
+  ages: number;
+  height: number;
+  weight: number;
+  sex: string;
+}
