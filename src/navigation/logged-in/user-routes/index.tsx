@@ -8,6 +8,8 @@ import {Pressable, View} from 'react-native';
 import Home from '../../../screens/users/home';
 import {appColors} from '../../../constants/colors';
 import DetectionMenu from '../../../screens/users/detection-menu';
+import AddPatients from '../../../screens/users/add-patients';
+import ChoosePatient from '../../../screens/users/choose-patient';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +32,24 @@ const UserRoutes = () => {
           component={DetectionMenu}
           options={{
             title: 'subject information',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="AddPatients"
+          component={AddPatients}
+          options={{
+            title: 'Add Patient',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="ChoosePatient"
+          component={ChoosePatient}
+          options={{
+            title: 'Choose from existing patients',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}
