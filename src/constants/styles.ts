@@ -1,3 +1,8 @@
+import {StyleProp} from 'react-native/Libraries/StyleSheet/StyleSheet';
+import {
+  TextStyle,
+  ViewStyle,
+} from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import {appColors} from './colors';
 
 export const flexSpace = {
@@ -22,14 +27,14 @@ export const commonInput = {
   borderColor: appColors.BORDER_COLOR,
 };
 
-export const commonAdminButtonTextStyles = {
+export const commonAdminButtonTextStyles: StyleProp<TextStyle> = {
   color: appColors.WHITE,
   textAlign: 'center',
   fontSize: 18,
   marginLeft: 10,
 };
 
-export const commonAdminButtonContainerStyles = {
+export const commonAdminButtonContainerStyles: StyleProp<ViewStyle> = {
   backgroundColor: appColors.BLUE,
   padding: 15,
   marginTop: 10,

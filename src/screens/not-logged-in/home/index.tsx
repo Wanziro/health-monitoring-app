@@ -34,23 +34,19 @@ function Home({navigation}: INavigationProp) {
           <Pressable
             style={{width: width - 50}}
             onPress={() => navigation.navigate('Login')}>
-            <View
-              style={{
-                ...commonAdminButtonContainerStyles,
-              }}>
-              <Text style={{...commonAdminButtonTextStyles}}>Login</Text>
+            <View style={[commonAdminButtonContainerStyles]}>
+              <Text style={[commonAdminButtonTextStyles]}>Login</Text>
             </View>
           </Pressable>
         </View>
-        <View style={{marginTop: 10}}>
-          <Pressable
-            style={{width: width - 50}}
-            onPress={() => navigation.navigate('Register')}>
-            <View style={{...commonAdminButtonContainerStyles}}>
-              <Text style={{...commonAdminButtonTextStyles}}>Register</Text>
-            </View>
-          </Pressable>
-        </View>
+
+        <Pressable
+          style={{width: width - 50}}
+          onPress={() => navigation.navigate('Register')}>
+          <View style={[commonAdminButtonContainerStyles, {marginTop: 20}]}>
+            <Text style={[commonAdminButtonTextStyles]}>Register</Text>
+          </View>
+        </Pressable>
       </View>
     </ImageBackground>
   );
