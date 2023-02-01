@@ -136,7 +136,7 @@ function Register({navigation}: INavigationProp) {
                   // padding: 10,
                 }}>
                 <Image
-                  source={require('../../../../assets/logo.png')}
+                  source={require('../../../assets/logo.png')}
                   style={{width: 90, height: 90, borderRadius: 10}}
                 />
               </View>

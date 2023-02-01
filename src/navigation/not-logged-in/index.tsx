@@ -6,15 +6,26 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../../screens/not-logged-in/Login';
 import Register from '../../screens/not-logged-in/Register';
 import {appColors} from '../../constants/colors';
+import Home from '../../screens/not-logged-in/home';
 
 const Stack = createNativeStackNavigator();
 
 function NotLoggedIn() {
   return (
     <>
-      <StatusBar backgroundColor={appColors.APPBAR_HEADER_COLOR} />
+      <StatusBar translucent backgroundColor="transparent" />
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Hm">
+          <Stack.Screen
+            name="Hm"
+            component={Home}
+            options={{
+              headerTransparent: true,
+              title: '',
+              headerShadowVisible: false,
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="Login"
             component={Login}

@@ -90,7 +90,7 @@ function Login({navigation}: ILogin) {
                   // padding: 10,
                 }}>
                 <Image
-                  source={require('../../../../assets/logo.png')}
+                  source={require('../../../assets/logo.png')}
                   style={{width: 150, height: 150, borderRadius: 10}}
                 />
               </View>

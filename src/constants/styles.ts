@@ -33,7 +33,7 @@ export const commonAdminButtonContainerStyles = {
   backgroundColor: appColors.BLUE,
   padding: 15,
   marginTop: 10,
-  borderRadius: 5,
+  borderRadius: 10,
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'row',
