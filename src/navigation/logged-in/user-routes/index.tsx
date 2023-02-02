@@ -14,6 +14,8 @@ import ChangePassword from '../../../screens/profile/change-password';
 import UpdateUserInfo from '../../../screens/profile/update-user-info';
 import Profile from '../../../screens/profile';
 import DetectedPatient from '../../../screens/users/detected-patient';
+import TestResults from '../../../screens/users/test-results';
+import TestOptions from '../../../screens/users/test-options';
 
 const Stack = createNativeStackNavigator();
 
@@ -90,6 +92,24 @@ const UserRoutes = () => {
           component={UpdateUserInfo}
           options={{
             title: 'Update user information',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="TestOptions"
+          component={TestOptions}
+          options={{
+            title: 'Health Check',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="TestResults"
+          component={TestResults}
+          options={{
+            title: 'Test Results',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}
