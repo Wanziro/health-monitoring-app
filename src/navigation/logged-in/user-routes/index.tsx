@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Pressable, View} from 'react-native';
+import {Pressable, View, Text} from 'react-native';
 
 import Home from '../../../screens/users/home';
 import {appColors} from '../../../constants/colors';
@@ -16,6 +16,7 @@ import Profile from '../../../screens/profile';
 import DetectedPatient from '../../../screens/users/detected-patient';
 import TestResults from '../../../screens/users/test-results';
 import TestOptions from '../../../screens/users/test-options';
+import {INavigationProp} from '../../../interfaces';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,11 +28,18 @@ const UserRoutes = () => {
         <Stack.Screen
           name="UserHome"
           component={Home}
-          options={{
+          options={({route, navigation}: INavigationProp) => ({
+            headerRight: () => (
+              <Pressable onPress={() => navigation.navigate('Profile')}>
+                <View>
+                  <Text style={{color: appColors.WHITE}}>Profile</Text>
+                </View>
+              </Pressable>
+            ),
             title: 'Device Connection',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
-          }}
+          })}
         />
         <Stack.Screen
           name="DetectionMenu"
