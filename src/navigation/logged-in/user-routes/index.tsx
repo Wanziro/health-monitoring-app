@@ -17,6 +17,7 @@ import DetectedPatient from '../../../screens/users/detected-patient';
 import TestResults from '../../../screens/users/test-results';
 import TestOptions from '../../../screens/users/test-options';
 import {INavigationProp} from '../../../interfaces';
+import GeneratedQRCode from '../../../screens/users/generated-qr-code';
 
 const Stack = createNativeStackNavigator();
 
@@ -118,6 +119,15 @@ const UserRoutes = () => {
           component={TestResults}
           options={{
             title: 'Test Results',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="GeneRatedQRCode"
+          component={GeneratedQRCode}
+          options={{
+            title: 'QR CODE',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}

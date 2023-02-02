@@ -81,6 +81,15 @@ function DetectedPatient({navigation, route}: INavigationProp) {
       <View style={[viewFlexCenter]}>
         <Pressable
           style={{width: width / 2}}
+          onPress={() => navigation.navigate('GeneRatedQRCode', {patient})}>
+          <View style={[commonAdminButtonContainerStyles]}>
+            <Text style={[commonAdminButtonTextStyles]}>Generate QRCode</Text>
+          </View>
+        </Pressable>
+      </View>
+      <View style={[viewFlexCenter, {marginTop: 20}]}>
+        <Pressable
+          style={{width: width / 2}}
           onPress={() => navigation.navigate('TestOptions', {patient})}>
           <View style={[commonAdminButtonContainerStyles]}>
             <Text style={[commonAdminButtonTextStyles]}>Next Step</Text>
