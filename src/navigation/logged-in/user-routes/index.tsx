@@ -10,6 +10,10 @@ import {appColors} from '../../../constants/colors';
 import DetectionMenu from '../../../screens/users/detection-menu';
 import AddPatients from '../../../screens/users/add-patients';
 import ChoosePatient from '../../../screens/users/choose-patient';
+import ChangePassword from '../../../screens/profile/change-password';
+import UpdateUserInfo from '../../../screens/profile/update-user-info';
+import Profile from '../../../screens/profile';
+import DetectedPatient from '../../../screens/users/detected-patient';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +54,42 @@ const UserRoutes = () => {
           component={ChoosePatient}
           options={{
             title: 'Choose from existing patients',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="DetectedPatient"
+          component={DetectedPatient}
+          options={{
+            title: 'Detected Person',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            title: 'Profile',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
+          options={{
+            title: 'Change password',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="UpdateUserInfo"
+          component={UpdateUserInfo}
+          options={{
+            title: 'Update user information',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}
