@@ -6,7 +6,7 @@ import {
   commonAdminButtonContainerStyles,
   commonAdminButtonTextStyles,
 } from '../../../constants/styles';
-import {toastMessage} from '../../../helpers';
+import {toastMessage2} from '../../../helpers';
 import {INavigationProp, IPatient} from '../../../interfaces';
 const {width} = Dimensions.get('window');
 function TestOptions({navigation, route}: INavigationProp) {
@@ -14,7 +14,7 @@ function TestOptions({navigation, route}: INavigationProp) {
   const [testOption, setTestOption] = useState<string>('');
   const handleDetect = () => {
     if (testOption === '') {
-      toastMessage('error', 'Please select test item first');
+      toastMessage2('error', 'Please select test item first');
     } else {
       navigation.navigate('TestResults');
     }

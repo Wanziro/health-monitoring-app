@@ -47,11 +47,11 @@ function GeneratedQRCode({navigation, route}: INavigationProp) {
       }}>
       <QRCode getRef={qrCodeRef} size={width - 100} value={[{...patient}]} />
 
-      <Pressable onPress={() => handleShare()}>
+      {/* <Pressable onPress={() => handleShare()}>
         <View style={[commonAdminButtonContainerStyles]}>
           <Text style={[commonAdminButtonTextStyles]}>Share QRCODE</Text>
         </View>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 }

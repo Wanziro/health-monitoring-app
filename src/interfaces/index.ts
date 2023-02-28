@@ -28,6 +28,10 @@ export interface IPatientRegisterRequest {
   height: number;
   weight: number;
   sex: string;
+  departmentId: string;
+  bedId: string;
+  medication: string;
+  medicalHistory: string;
 }
 export interface IPatient {
   _id: string;
@@ -36,4 +40,9 @@ export interface IPatient {
   height: number;
   weight: number;
   sex: string;
+  departmentId: string;
+  bedId: string;
+  medication: string;
+  medicalHistory: string;
+  createdAt: string;
 }

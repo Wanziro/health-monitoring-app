@@ -49,6 +49,33 @@ export const toastMessage = (type: string, message: string) => {
   }
 };
 
+export const toastMessage2 = (type: string, message: string) => {
+  if (type == 'info') {
+    Dialog.show({
+      type: ALERT_TYPE.WARNING,
+      title: 'Info',
+      textBody: message,
+      button: 'OK',
+    });
+  }
+  if (type == 'error') {
+    Dialog.show({
+      type: ALERT_TYPE.DANGER,
+      title: 'Error',
+      textBody: message,
+      button: 'OK',
+    });
+  }
+  if (type == 'success') {
+    Dialog.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: 'Success',
+      textBody: message,
+      button: 'OK',
+    });
+  }
+};
+
 export const errorHandler = (error: any) => {
   if (error?.response?.data?.msg) {
     toastMessage('error', error.response.data.msg);

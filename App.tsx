@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import {store, persistor} from './src/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import Navigation from './src/navigation';
+import {AlertNotificationRoot} from 'react-native-alert-notification';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -11,11 +12,13 @@ LogBox.ignoreLogs([
 
 function App(): JSX.Element {
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <Navigation />
-      </PersistGate>
-    </Provider>
+    <AlertNotificationRoot>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Navigation />
+        </PersistGate>
+      </Provider>
+    </AlertNotificationRoot>
   );
 }
 

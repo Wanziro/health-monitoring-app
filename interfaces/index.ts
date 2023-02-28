@@ -10,6 +10,7 @@ export interface IDepartment {
 }
 
 export interface IBed {
+  _id: string;
   bedNumber: string;
   departmentId: string;
   createdAt: string;

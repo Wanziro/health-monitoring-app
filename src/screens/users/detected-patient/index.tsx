@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable, Dimensions} from 'react-native';
+import {useSelector} from 'react-redux';
 import {appColors} from '../../../constants/colors';
 import {
   commonAdminButtonContainerStyles,
@@ -8,9 +9,18 @@ import {
   viewFlexSpace,
 } from '../../../constants/styles';
 import {INavigationProp, IPatient} from '../../../interfaces';
+import {RootState} from '../../../reducers';
 const {width} = Dimensions.get('window');
 function DetectedPatient({navigation, route}: INavigationProp) {
+  const {departments} = useSelector((state: RootState) => state.departments);
   const patient: IPatient = route?.params?.patient as IPatient;
+  const [depName, setDepName] = useState('');
+  useEffect(() => {
+    const dep = departments.find(item => item._id === patient.departmentId);
+    if (dep) {
+      setDepName(dep.name);
+    }
+  }, [patient]);
   return (
     <View
       style={{
@@ -18,6 +28,20 @@ function DetectedPatient({navigation, route}: INavigationProp) {
         backgroundColor: appColors.BACKGROUND_COLOR,
         paddingVertical: 10,
       }}>
+      <View
+        style={[
+          viewFlexSpace,
+          {
+            padding: 10,
+            borderBottomColor: appColors.BORDER_COLOR,
+            borderBottomWidth: 1,
+          },
+        ]}>
+        <Text style={{color: appColors.BLACK, fontWeight: '600'}}>
+          Department
+        </Text>
+        <Text style={{color: appColors.TEXT_COLOR}}>{depName}</Text>
+      </View>
       <View
         style={[
           viewFlexSpace,
@@ -77,6 +101,52 @@ function DetectedPatient({navigation, route}: INavigationProp) {
         ]}>
         <Text style={{color: appColors.BLACK, fontWeight: '600'}}>Sex</Text>
         <Text style={{color: appColors.TEXT_COLOR}}>{patient.sex}</Text>
+      </View>
+      <View
+        style={[
+          viewFlexSpace,
+          {
+            padding: 10,
+            borderBottomColor: appColors.BORDER_COLOR,
+            borderBottomWidth: 1,
+            alignItems: 'flex-start',
+          },
+        ]}>
+        <Text style={{color: appColors.BLACK, fontWeight: '600'}}>
+          Medical History
+        </Text>
+        <Text
+          style={{
+            color: appColors.TEXT_COLOR,
+            marginLeft: 10,
+            textAlign: 'right',
+            flex: 1,
+          }}>
+          {patient.medicalHistory}
+        </Text>
+      </View>
+      <View
+        style={[
+          viewFlexSpace,
+          {
+            padding: 10,
+            borderBottomColor: appColors.BORDER_COLOR,
+            borderBottomWidth: 1,
+            alignItems: 'flex-start',
+          },
+        ]}>
+        <Text style={{color: appColors.BLACK, fontWeight: '600'}}>
+          Medication
+        </Text>
+        <Text
+          style={{
+            color: appColors.TEXT_COLOR,
+            marginLeft: 10,
+            textAlign: 'right',
+            flex: 1,
+          }}>
+          {patient.medication}
+        </Text>
       </View>
       <View style={[viewFlexCenter]}>
         <Pressable
