@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, Pressable, ScrollView} from 'react-native';
+import {Text, View, Pressable, ScrollView, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import {appColors} from '../../../constants/colors';
 import {
@@ -10,7 +10,17 @@ import {
 import {useLoadBasicData} from '../../../helpers';
 import {INavigationProp} from '../../../interfaces';
 import {RootState} from '../../../reducers';
-
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from 'react-native-chart-kit';
+import {Picker} from '@react-native-picker/picker';
+import BloodPressureChart from './bload-pressure-chart';
+const {width} = Dimensions.get('window');
 function Home({navigation}: INavigationProp) {
   const {departments} = useSelector((state: RootState) => state.departments);
   const loadData = useLoadBasicData();
@@ -29,38 +39,87 @@ function Home({navigation}: INavigationProp) {
         justifyContent: 'space-between',
       }}>
       <View style={{padding: 10, flex: 1}}>
-        <View style={{height: 70}}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View style={[viewFlexSpace]}>
-              <Pressable
-                style={{
-                  marginRight: 10,
-                  opacity: activeDepartment === '' ? 1 : 0.5,
-                }}
-                onPress={() => setActiveDepartment('')}>
-                <View style={commonAdminButtonContainerStyles}>
-                  <Text style={commonAdminButtonTextStyles}>All</Text>
-                </View>
-              </Pressable>
-              {departments.map((item, index) => (
-                <Pressable
-                  onPress={() => setActiveDepartment(item._id)}
-                  style={{
-                    marginRight: 10,
-                    opacity: activeDepartment === item._id ? 1 : 0.5,
-                  }}
-                  key={index}>
-                  <View style={commonAdminButtonContainerStyles}>
-                    <Text style={commonAdminButtonTextStyles}>{item.name}</Text>
-                  </View>
-                </Pressable>
-              ))}
-            </View>
-          </ScrollView>
-        </View>
         <ScrollView>
-          <View style={{paddingVertical: 10}}>
-            <Text>No tests found.</Text>
+          <View>
+            <View style={[viewFlexSpace]}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: appColors.BLACK,
+                  fontSize: 16,
+                }}>
+                Sugar Report
+              </Text>
+              <View style={{flex: 1, marginLeft: 10}}>
+                <Picker
+                  // selectedValue={testOption}
+                  // onValueChange={(itemValue, itemIndex) => setTestOption(itemValue)}
+                  style={{
+                    backgroundColor: appColors.WHITE,
+                    marginTop: 10,
+                    borderRadius: 5,
+                    padding: 10,
+                    borderWidth: 1,
+                    borderColor: appColors.BORDER_COLOR,
+                  }}>
+                  {[
+                    {name: 'Yearly Report', value: ''},
+                    {name: 'Monthly Report', value: 'Blood'},
+                  ].map((model, i) => (
+                    <Picker.Item
+                      key={i}
+                      label={model.name}
+                      value={model.value}
+                    />
+                  ))}
+                </Picker>
+              </View>
+            </View>
+            <LineChart
+              data={{
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jully'],
+                datasets: [
+                  {
+                    data: [
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                    ],
+                  },
+                ],
+              }}
+              width={width} // from react-native
+              height={220}
+              // yAxisLabel="$"
+              // yAxisSuffix="k"
+              yAxisInterval={1} // optional, defaults to 1
+              chartConfig={{
+                backgroundColor: appColors.BLUE,
+                backgroundGradientFrom: appColors.BLUE,
+                backgroundGradientTo: '#ffa726',
+                decimalPlaces: 2, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                },
+                propsForDots: {
+                  r: '6',
+                  strokeWidth: '2',
+                  stroke: '#ffa726',
+                },
+              }}
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+              }}
+            />
+            <BloodPressureChart />
           </View>
         </ScrollView>
       </View>

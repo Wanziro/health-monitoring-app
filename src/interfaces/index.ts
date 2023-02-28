@@ -46,4 +46,5 @@ export interface IPatient {
   medication: string;
   medicalHistory: string;
   createdAt: string;
+  email: string;
 }

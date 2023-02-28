@@ -21,7 +21,7 @@ function HealthCheckHome({navigation}: INavigationProp) {
           style={{fontSize: 20, textAlign: 'center', color: appColors.BLACK}}>
           The device is connected and you can continue
         </Text>
-        <Pressable onPress={() => navigation.navigate('DetectionMenu')}>
+        <Pressable onPress={() => navigation.navigate('TestOptions')}>
           <View style={[commonAdminButtonContainerStyles]}>
             <Text style={[commonAdminButtonTextStyles]}>Next Step</Text>
           </View>

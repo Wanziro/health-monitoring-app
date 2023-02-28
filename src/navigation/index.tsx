@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import NotLoggedIn from './not-logged-in';
 import Toast from 'react-native-toast-message';
 import UserRoutes from './logged-in/user-routes';
+import PatientUserRoutes from './logged-in/patient-user-routes';
 import AdminRoutes from './logged-in/admin-routes';
 import {RootState} from '../reducers';
 function Navigation() {
@@ -11,8 +12,10 @@ function Navigation() {
     <>
       {token === '' || token === undefined ? (
         <NotLoggedIn />
-      ) : role == 'user' ? (
+      ) : role == 'nurse' ? (
         <UserRoutes />
+      ) : role == 'user' ? (
+        <PatientUserRoutes />
       ) : (
         <AdminRoutes />
       )}

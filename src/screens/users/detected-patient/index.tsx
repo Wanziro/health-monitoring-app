@@ -109,6 +109,26 @@ function DetectedPatient({navigation, route}: INavigationProp) {
             padding: 10,
             borderBottomColor: appColors.BORDER_COLOR,
             borderBottomWidth: 1,
+          },
+        ]}>
+        <Text style={{color: appColors.BLACK, fontWeight: '600'}}>Email</Text>
+        <Text
+          style={{
+            color: appColors.TEXT_COLOR,
+            flex: 1,
+            marginLeft: 10,
+            textAlign: 'right',
+          }}>
+          {patient.email}
+        </Text>
+      </View>
+      <View
+        style={[
+          viewFlexSpace,
+          {
+            padding: 10,
+            borderBottomColor: appColors.BORDER_COLOR,
+            borderBottomWidth: 1,
             alignItems: 'flex-start',
           },
         ]}>
