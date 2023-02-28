@@ -23,13 +23,13 @@ import BloodPressureChart from './bload-pressure-chart';
 const {width} = Dimensions.get('window');
 function Home({navigation}: INavigationProp) {
   const {departments} = useSelector((state: RootState) => state.departments);
-  const loadData = useLoadBasicData();
+  // const loadData = useLoadBasicData();
 
   const [activeDepartment, setActiveDepartment] = useState('');
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  // useEffect(() => {
+  //   loadData();
+  // }, []);
   return (
     <View
       style={{
