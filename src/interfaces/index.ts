@@ -32,6 +32,7 @@ export interface IPatientRegisterRequest {
   bedId: string;
   medication: string;
   medicalHistory: string;
+  email: string;
 }
 export interface IPatient {
   _id: string;

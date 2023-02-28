@@ -14,7 +14,12 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
-import {errorHandler, toastMessage} from '../../../helpers';
+import {
+  errorHandler,
+  errorHandler2,
+  toastMessage,
+  toastMessage2,
+} from '../../../helpers';
 import {
   resetUser,
   setUserEmail,
@@ -49,12 +54,12 @@ function Login({navigation}: ILogin) {
           dispatch(setUserNames(fullName));
           dispatch(setUserRole(role));
           dispatch(setUserToken(token));
-          toastMessage('success', 'Logged in successfull');
+          toastMessage2('success', 'Logged in successfull');
         })
         .catch(error => {
           setIsSubmitting(false);
           setPassword('');
-          errorHandler(error);
+          errorHandler2(error);
         });
     }
   };

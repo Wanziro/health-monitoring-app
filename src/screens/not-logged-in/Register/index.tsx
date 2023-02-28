@@ -12,7 +12,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
-import {toastMessage, errorHandler} from '../../../helpers';
+import {toastMessage2, errorHandler} from '../../../helpers';
 import {
   resetUser,
   setUserEmail,
@@ -43,17 +43,17 @@ function Register({navigation}: INavigationProp) {
       password.trim() === '' ||
       confirmPassword.trim() === ''
     ) {
-      toastMessage(
+      toastMessage2(
         'error',
         'Please all information on this form are required. Kindly provide them carefully.',
       );
       return;
     }
     if (password.length <= 4) {
-      toastMessage('error', 'Password must be greater then 4 characters');
+      toastMessage2('error', 'Password must be greater then 4 characters');
       return;
     } else if (password !== confirmPassword) {
-      toastMessage('error', 'Passwords do not match');
+      toastMessage2('error', 'Passwords do not match');
       return;
     }
 
@@ -71,7 +71,7 @@ function Register({navigation}: INavigationProp) {
         dispatch(setUserRole(role));
         dispatch(setUserToken(token));
         // navigation.replace('HomeTabs1');
-        toastMessage('success', res.data.msg);
+        toastMessage2('success', res.data.msg);
       })
       .catch(error => {
         setIsSubmitting(false);
@@ -112,7 +112,7 @@ function Register({navigation}: INavigationProp) {
           />
           <Text
             style={{color: appColors.BLACK, fontSize: 20, fontWeight: '700'}}>
-            Reigister
+            Patients Register
           </Text>
         </View>
         <View style={{width: '90%', marginTop: 40}}>

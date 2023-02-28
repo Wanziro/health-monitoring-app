@@ -272,26 +272,6 @@ function AddPatients({navigation}: INavigationProp) {
                 value={state.medicalHistory}
               />
             </View>
-            <View style={{marginVertical: 10}}>
-              <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
-                Patient's email address
-              </Text>
-              <TextInput
-                style={{
-                  backgroundColor: appColors.WHITE,
-                  marginTop: 10,
-                  borderRadius: 5,
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: appColors.BORDER_COLOR,
-                }}
-                placeholder="Enter email"
-                onChangeText={(text: string) =>
-                  setState({...state, email: text})
-                }
-                value={state.email}
-              />
-            </View>
             <Pressable style={{marginTop: 10}} onPress={() => handleSubmit()}>
               <View style={[commonAdminButtonContainerStyles]}>
                 <Text style={[commonAdminButtonTextStyles]}>Submit</Text>
