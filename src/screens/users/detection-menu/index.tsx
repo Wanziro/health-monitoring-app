@@ -33,7 +33,7 @@ function DetectionMenu({navigation}: INavigationProp) {
               <Text style={{color: appColors.BLACK}}>Method One</Text>
             </View>
             <View>
-              <Pressable>
+              <Pressable onPress={() => navigation.navigate('ScanQRCode')}>
                 <View
                   style={[
                     commonAdminButtonContainerStyles,

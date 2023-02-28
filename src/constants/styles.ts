@@ -31,7 +31,6 @@ export const commonAdminButtonTextStyles: StyleProp<TextStyle> = {
   color: appColors.WHITE,
   textAlign: 'center',
   fontSize: 18,
-  marginLeft: 10,
 };
 
 export const commonAdminButtonContainerStyles: StyleProp<ViewStyle> = {

@@ -18,6 +18,8 @@ import TestResults from '../../../screens/users/test-results';
 import TestOptions from '../../../screens/users/test-options';
 import {INavigationProp} from '../../../interfaces';
 import GeneratedQRCode from '../../../screens/users/generated-qr-code';
+import ScanQRCode from '../../../screens/users/scan-qr-code';
+import HealthCheckHome from '../../../screens/users/health-check-home';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +31,22 @@ const UserRoutes = () => {
         <Stack.Screen
           name="UserHome"
           component={Home}
+          options={({route, navigation}: INavigationProp) => ({
+            headerRight: () => (
+              <Pressable onPress={() => navigation.navigate('Profile')}>
+                <View>
+                  <Text style={{color: appColors.WHITE}}>Profile</Text>
+                </View>
+              </Pressable>
+            ),
+            title: 'Home',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          })}
+        />
+        <Stack.Screen
+          name="HealthCheckHome"
+          component={HealthCheckHome}
           options={({route, navigation}: INavigationProp) => ({
             headerRight: () => (
               <Pressable onPress={() => navigation.navigate('Profile')}>
@@ -128,6 +146,15 @@ const UserRoutes = () => {
           component={GeneratedQRCode}
           options={{
             title: 'QR CODE',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="ScanQRCode"
+          component={ScanQRCode}
+          options={{
+            title: 'SCAN CODE',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}
