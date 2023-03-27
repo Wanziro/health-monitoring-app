@@ -63,8 +63,10 @@ function Home({navigation}: INavigationProp) {
                     borderColor: appColors.BORDER_COLOR,
                   }}>
                   {[
-                    {name: 'Yearly Report', value: ''},
-                    {name: 'Monthly Report', value: 'Blood'},
+                    {name: '7 Days Report', value: '7days'},
+                    {name: '14 Days Report', value: '14days'},
+                    {name: 'Monthly Report', value: 'Monthly'},
+                    {name: 'Yearly Report', value: 'Yearly'},
                   ].map((model, i) => (
                     <Picker.Item
                       key={i}
