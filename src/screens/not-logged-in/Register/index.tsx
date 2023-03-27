@@ -8,8 +8,8 @@ import {
   Pressable,
   ActivityIndicator,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
 import {toastMessage2, errorHandler} from '../../../helpers';
@@ -82,10 +82,8 @@ function Register({navigation}: INavigationProp) {
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={{
-        backgroundColor: appColors.BACKGROUND_COLOR,
-      }}>
+    <KeyboardAvoidingView
+      style={{flex: 1, backgroundColor: appColors.BACKGROUND_COLOR}}>
       <StatusBar
         translucent
         backgroundColor={appColors.TRANSPARENT}
@@ -240,7 +238,7 @@ function Register({navigation}: INavigationProp) {
         </View>
       </View>
       <FullPageLoader isLoading={isSubmitting} />
-    </KeyboardAwareScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

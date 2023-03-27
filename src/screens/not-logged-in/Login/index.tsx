@@ -9,8 +9,8 @@ import {
   ActivityIndicator,
   Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
@@ -67,7 +67,7 @@ function Login({navigation}: ILogin) {
     dispatch(resetUser());
   }, []);
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAvoidingView style={{flex: 1}}>
       <StatusBar
         translucent
         backgroundColor={appColors.TRANSPARENT}
@@ -110,7 +110,9 @@ function Login({navigation}: ILogin) {
         </View>
         <View style={{width: '90%', marginTop: 40}}>
           <View style={{marginVertical: 10}}>
-            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>Email</Text>
+            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+              Email/Phone
+            </Text>
             <TextInput
               style={{
                 backgroundColor: appColors.WHITE,
@@ -120,7 +122,7 @@ function Login({navigation}: ILogin) {
                 borderWidth: 1,
                 borderColor: appColors.BORDER_COLOR,
               }}
-              placeholder="Email address"
+              placeholder="Email address or phone number"
               onChangeText={text => setEmail(text)}
               ref={emailRef}
               value={email}
@@ -196,7 +198,7 @@ function Login({navigation}: ILogin) {
           </TouchableOpacity>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, Pressable, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {appColors} from '../../../constants/colors';
 import {INavigationProp, IPatientRegisterRequest} from '../../../interfaces';
 import {Picker} from '@react-native-picker/picker';
@@ -7,7 +14,6 @@ import {
   commonAdminButtonContainerStyles,
   commonAdminButtonTextStyles,
 } from '../../../constants/styles';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FullPageLoader from '../../full-page-loader';
 import axios from 'axios';
 import {app} from '../../../constants/app';
@@ -60,7 +66,7 @@ function AddPatients({navigation}: INavigationProp) {
   }, [state.departmentId]);
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAvoidingView style={{flex: 1}}>
       <View
         style={{
           flex: 1,
@@ -281,7 +287,7 @@ function AddPatients({navigation}: INavigationProp) {
         </View>
       </View>
       <FullPageLoader isLoading={isLoading} />
-    </KeyboardAwareScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
