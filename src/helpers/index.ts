@@ -87,6 +87,16 @@ export const errorHandler = (error: any) => {
   handleAuthError(error);
 };
 
+export const returnErroMessage = (error: any) => {
+  if (error?.response?.data?.msg) {
+    return error.response.data.msg;
+  } else if (error.message) {
+    return error.message;
+  } else {
+    return error;
+  }
+};
+
 export const errorHandler2 = (error: any) => {
   if (error?.response?.data?.msg) {
     Dialog.show({

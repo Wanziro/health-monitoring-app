@@ -13,8 +13,8 @@ import {
   ScrollView,
 } from 'react-native';
 import Axios from 'axios';
-import {useDispatch} from 'react-redux';
-import {toastMessage2, errorHandler} from '../../../helpers';
+import {useDispatch, useSelector} from 'react-redux';
+import {toastMessage2, errorHandler, returnErroMessage} from '../../../helpers';
 import {
   resetUser,
   setUserEmail,
@@ -27,6 +27,8 @@ import {INavigationProp} from '../../../interfaces';
 import {app} from '../../../constants/app';
 import FullPageLoader from '../../full-page-loader';
 import {appColors} from '../../../constants/colors';
+import {Picker} from '@react-native-picker/picker';
+import {RootState} from '../../../reducers';
 function Register({navigation}: INavigationProp) {
   const dispatch = useDispatch();
   const [names, setNames] = useState('');
@@ -34,6 +36,8 @@ function Register({navigation}: INavigationProp) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [departmentId, setDepartmentId] = useState('');
+  const {departments} = useSelector((state: RootState) => state.departments);
 
   useEffect(() => {
     dispatch(resetUser());
@@ -59,11 +63,16 @@ function Register({navigation}: INavigationProp) {
       toastMessage2('error', 'Passwords do not match');
       return;
     }
+    if (departmentId.trim() === '') {
+      toastMessage2('error', 'Please choose department');
+      return;
+    }
 
     setIsSubmitting(true);
     Axios.post(app.backendUrl + '/users/register', {
       fullName: names,
       phone: email,
+      departmentId,
       password,
     })
       .then(res => {
@@ -77,10 +86,11 @@ function Register({navigation}: INavigationProp) {
         toastMessage2('success', res.data.msg);
       })
       .catch(error => {
+        const err = returnErroMessage(error);
         setIsSubmitting(false);
         setPassword('');
         setConfirmPassword('');
-        errorHandler(error);
+        toastMessage2('error', err);
       });
   };
 
@@ -129,7 +139,7 @@ function Register({navigation}: INavigationProp) {
                 Patients Register
               </Text>
             </View>
-            <View style={{width: '90%', marginTop: 40}}>
+            <View style={{width: '90%', marginTop: 40, paddingBottom: 20}}>
               <View style={{marginVertical: 10}}>
                 <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Names
@@ -148,7 +158,6 @@ function Register({navigation}: INavigationProp) {
                   value={names}
                 />
               </View>
-
               <View style={{marginVertical: 10}}>
                 <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Phone Number
@@ -168,6 +177,32 @@ function Register({navigation}: INavigationProp) {
                   value={email}
                 />
               </View>
+              <Picker
+                selectedValue={departmentId}
+                onValueChange={(itemValue, itemIndex) =>
+                  setDepartmentId(itemValue)
+                }
+                style={{
+                  backgroundColor: appColors.WHITE,
+                  marginTop: 10,
+                  borderRadius: 5,
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: appColors.BORDER_COLOR,
+                }}>
+                {[
+                  {
+                    _id: '',
+                    name: 'Choose Department',
+                    numberOfBeds: '',
+                    type: '',
+                    createdAt: '',
+                  },
+                  ...departments,
+                ].map((model, i) => (
+                  <Picker.Item key={i} label={model.name} value={model._id} />
+                ))}
+              </Picker>
               <View style={{marginVertical: 10}}>
                 <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
                   Password
