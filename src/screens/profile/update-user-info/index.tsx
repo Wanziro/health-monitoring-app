@@ -26,7 +26,7 @@ function UpdateUserInfo({navigation}: INavigationProp) {
   const user = useSelector((state: RootState) => state.user);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [names, setNames] = useState(user.fullName);
-  const [email, setEmail] = useState(user.email);
+  const [phone, setEmail] = useState(user.phone);
 
   const handleSubmit = () => {
     if (names.trim() !== '') {
@@ -69,9 +69,9 @@ function UpdateUserInfo({navigation}: INavigationProp) {
           </View>
 
           <View style={{marginVertical: 10}}>
-            <Text style={styles.label}>Email</Text>
+            <Text style={styles.label}>Phone</Text>
             <View style={styles.inputDesabled}>
-              <Text>{email}</Text>
+              <Text>{phone}</Text>
             </View>
           </View>
 

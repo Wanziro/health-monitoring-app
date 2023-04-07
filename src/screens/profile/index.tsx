@@ -55,7 +55,7 @@ function Profile({navigation}: INavigationProp) {
               {userObj.fullName}
             </Text>
             <Text style={{color: appColors.WHITE, textAlign: 'center'}}>
-              {userObj.email}
+              {userObj.phone}
             </Text>
           </View>
         </View>
