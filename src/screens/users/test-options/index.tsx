@@ -16,7 +16,7 @@ function TestOptions({navigation, route}: INavigationProp) {
     if (testOption === '') {
       toastMessage2('error', 'Please select test item first');
     } else {
-      navigation.navigate('TestResults');
+      navigation.navigate('Confirmation');
     }
   };
   return (
@@ -44,8 +44,7 @@ function TestOptions({navigation, route}: INavigationProp) {
           }}>
           {[
             {name: 'Choose Test Item', value: ''},
-            {name: 'Blood', value: 'Blood'},
-            {name: 'Sugar', value: 'Sugar'},
+            {name: 'Blood Sugar', value: 'Blood Sugar'},
             {name: 'Uric Acid', value: 'Uric Acid'},
           ].map((model, i) => (
             <Picker.Item key={i} label={model.name} value={model.value} />

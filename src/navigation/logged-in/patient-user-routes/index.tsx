@@ -20,6 +20,7 @@ import {INavigationProp} from '../../../interfaces';
 import GeneratedQRCode from '../../../screens/patient-users/generated-qr-code';
 import ScanQRCode from '../../../screens/patient-users/scan-qr-code';
 import HealthCheckHome from '../../../screens/patient-users/health-check-home';
+import Confirmation from '../../../screens/patient-users/confirmation';
 
 const Stack = createNativeStackNavigator();
 
@@ -137,6 +138,15 @@ const UserRoutes = () => {
           component={TestResults}
           options={{
             title: 'Test Results',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="Confirmation"
+          component={Confirmation}
+          options={{
+            title: 'Please confirm',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}

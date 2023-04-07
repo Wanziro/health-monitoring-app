@@ -16,7 +16,7 @@ function TestOptions({navigation, route}: INavigationProp) {
     if (testOption === '') {
       toastMessage2('error', 'Please select test item first');
     } else {
-      navigation.navigate('TestResults');
+      navigation.navigate('Confirmation');
     }
   };
   return (
