@@ -5,6 +5,7 @@ export interface IUser {
   token: string;
   fullName: string;
   email: string;
+  phone: string;
   role: string;
 }
 export interface IAction {

@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 
 import Axios from 'axios';
@@ -24,6 +25,7 @@ import {
   resetUser,
   setUserEmail,
   setUserNames,
+  setUserPhone,
   setUserRole,
   setUserToken,
 } from '../../../actions/user';
@@ -47,10 +49,10 @@ function Login({navigation}: ILogin) {
       emailRef.current && emailRef.current.focus();
       setIsSubmitting(false);
     } else {
-      Axios.post(app.backendUrl + '/users/login/', {email, password})
+      Axios.post(app.backendUrl + '/users/login/', {phone: email, password})
         .then(res => {
-          const {email, fullName, role, token} = res.data;
-          dispatch(setUserEmail(email));
+          const {phone, fullName, role, token} = res.data;
+          dispatch(setUserPhone(phone));
           dispatch(setUserNames(fullName));
           dispatch(setUserRole(role));
           dispatch(setUserToken(token));
@@ -67,137 +69,135 @@ function Login({navigation}: ILogin) {
     dispatch(resetUser());
   }, []);
   return (
-    <KeyboardAvoidingView style={{flex: 1}}>
+    <KeyboardAvoidingView style={{flex: 1, height: '100%'}}>
       <StatusBar
         translucent
         backgroundColor={appColors.TRANSPARENT}
         barStyle="dark-content"
       />
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: appColors.BACKGROUND_COLOR,
-        }}>
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View
           style={{
-            padding: 10,
-            height: 150,
-            width: '100%',
+            flex: 1,
             alignItems: 'center',
-            paddingTop: 50,
+            justifyContent: 'center',
+            backgroundColor: appColors.BACKGROUND_COLOR,
           }}>
-          <Image
-            source={require('../../../assets/logo.png')}
-            style={{width: 150, height: 150, borderRadius: 10}}
-          />
-          <Text
-            style={{color: appColors.BLACK, fontSize: 20, fontWeight: '700'}}>
-            Login
-          </Text>
-        </View>
-        <View style={{marginTop: 80}}>
-          {/* <Text
+          <View
             style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              color: colors.BROWN,
-              textAlign: 'center',
+              padding: 10,
+              height: 150,
+              width: '100%',
+              alignItems: 'center',
+              paddingTop: 50,
             }}>
-            Login
-          </Text> */}
-        </View>
-        <View style={{width: '90%', marginTop: 40}}>
-          <View style={{marginVertical: 10}}>
-            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
-              Email/Phone
-            </Text>
-            <TextInput
-              style={{
-                backgroundColor: appColors.WHITE,
-                marginTop: 10,
-                borderRadius: 5,
-                padding: 10,
-                borderWidth: 1,
-                borderColor: appColors.BORDER_COLOR,
-              }}
-              placeholder="Email address or phone number"
-              onChangeText={text => setEmail(text)}
-              ref={emailRef}
-              value={email}
+            <Image
+              source={require('../../../assets/logo.png')}
+              style={{width: 150, height: 150, borderRadius: 10}}
             />
-          </View>
-          <View style={{marginVertical: 10}}>
-            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
-              Password
+            <Text
+              style={{color: appColors.BLACK, fontSize: 20, fontWeight: '700'}}>
+              Bloodsmeter
             </Text>
-            <TextInput
-              style={{
-                backgroundColor: appColors.WHITE,
-                marginTop: 10,
-                borderRadius: 5,
-                padding: 10,
-                borderWidth: 1,
-                borderColor: appColors.BORDER_COLOR,
-              }}
-              secureTextEntry
-              placeholder="Enter your password"
-              onChangeText={text => setPassword(text)}
-              value={password}
-            />
+            <Text
+              style={{color: appColors.BLACK, fontSize: 20, fontWeight: '700'}}>
+              Login
+            </Text>
           </View>
-          {isSubmitting ? (
-            <View
-              style={{
-                backgroundColor: appColors.BLUE,
-                padding: 15,
-                marginTop: 10,
-                borderRadius: 5,
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}>
-              <ActivityIndicator color={appColors.WHITE} />
-              <Text
-                style={{
-                  color: appColors.WHITE,
-                  textAlign: 'center',
-                  fontSize: 18,
-                  marginLeft: 10,
-                }}>
-                Login
+          <View style={{marginTop: 80}}></View>
+          <View style={{width: '90%', marginTop: 40}}>
+            <View style={{marginVertical: 10}}>
+              <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+                Phone Number
               </Text>
+              <TextInput
+                style={{
+                  backgroundColor: appColors.WHITE,
+                  marginTop: 10,
+                  borderRadius: 5,
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: appColors.BORDER_COLOR,
+                }}
+                keyboardType="number-pad"
+                placeholder="Enter your phone number"
+                onChangeText={text => setEmail(text)}
+                ref={emailRef}
+                value={email}
+              />
             </View>
-          ) : (
-            <Pressable onPress={() => handleSubmit()}>
+            <View style={{marginVertical: 10}}>
+              <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+                Password
+              </Text>
+              <TextInput
+                style={{
+                  backgroundColor: appColors.WHITE,
+                  marginTop: 10,
+                  borderRadius: 5,
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: appColors.BORDER_COLOR,
+                }}
+                secureTextEntry
+                placeholder="Enter your password"
+                onChangeText={text => setPassword(text)}
+                value={password}
+              />
+            </View>
+            {isSubmitting ? (
               <View
                 style={{
                   backgroundColor: appColors.BLUE,
                   padding: 15,
                   marginTop: 10,
                   borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
                 }}>
+                <ActivityIndicator color={appColors.WHITE} />
                 <Text
                   style={{
                     color: appColors.WHITE,
                     textAlign: 'center',
                     fontSize: 18,
+                    marginLeft: 10,
                   }}>
                   Login
                 </Text>
               </View>
-            </Pressable>
-          )}
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <View style={{marginTop: 20}}>
-              <Text style={{textAlign: 'center', color: appColors.OXFORD_BLUE}}>
-                Don't have account? Register
-              </Text>
-            </View>
-          </TouchableOpacity>
+            ) : (
+              <Pressable onPress={() => handleSubmit()}>
+                <View
+                  style={{
+                    backgroundColor: appColors.BLUE,
+                    padding: 15,
+                    marginTop: 10,
+                    borderRadius: 5,
+                  }}>
+                  <Text
+                    style={{
+                      color: appColors.WHITE,
+                      textAlign: 'center',
+                      fontSize: 18,
+                    }}>
+                    Login
+                  </Text>
+                </View>
+              </Pressable>
+            )}
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+              <View style={{marginTop: 20}}>
+                <Text
+                  style={{textAlign: 'center', color: appColors.OXFORD_BLUE}}>
+                  Don't have account? Register
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }

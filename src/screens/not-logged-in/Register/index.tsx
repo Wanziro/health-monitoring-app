@@ -9,6 +9,8 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   KeyboardAvoidingView,
+  SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import Axios from 'axios';
 import {useDispatch} from 'react-redux';
@@ -17,6 +19,7 @@ import {
   resetUser,
   setUserEmail,
   setUserNames,
+  setUserPhone,
   setUserRole,
   setUserToken,
 } from '../../../actions/user';
@@ -60,13 +63,13 @@ function Register({navigation}: INavigationProp) {
     setIsSubmitting(true);
     Axios.post(app.backendUrl + '/users/register', {
       fullName: names,
-      email,
+      phone: email,
       password,
     })
       .then(res => {
         setIsSubmitting(false);
-        const {email, fullName, role, token} = res.data;
-        dispatch(setUserEmail(email));
+        const {phone, fullName, role, token} = res.data;
+        dispatch(setUserPhone(phone));
         dispatch(setUserNames(fullName));
         dispatch(setUserRole(role));
         dispatch(setUserToken(token));
@@ -82,163 +85,184 @@ function Register({navigation}: INavigationProp) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{flex: 1, backgroundColor: appColors.BACKGROUND_COLOR}}>
+    <SafeAreaView>
       <StatusBar
         translucent
         backgroundColor={appColors.TRANSPARENT}
         barStyle="dark-content"
       />
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: appColors.BACKGROUND_COLOR,
-        }}>
-        <View
-          style={{
-            padding: 10,
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: 50,
-          }}>
-          <Image
-            source={require('../../../assets/logo.png')}
-            style={{width: 90, height: 90, borderRadius: 10}}
-          />
-          <Text
-            style={{color: appColors.BLACK, fontSize: 20, fontWeight: '700'}}>
-            Patients Register
-          </Text>
-        </View>
-        <View style={{width: '90%', marginTop: 40}}>
-          <View style={{marginVertical: 10}}>
-            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>Names</Text>
-            <TextInput
-              style={{
-                backgroundColor: appColors.WHITE,
-                marginTop: 10,
-                borderRadius: 5,
-                padding: 10,
-                borderWidth: 1,
-                borderColor: appColors.BORDER_COLOR,
-              }}
-              placeholder="Enter your full names"
-              onChangeText={text => setNames(text)}
-              value={names}
-            />
-          </View>
-
-          <View style={{marginVertical: 10}}>
-            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>Email</Text>
-            <TextInput
-              style={{
-                backgroundColor: appColors.WHITE,
-                marginTop: 10,
-                borderRadius: 5,
-                padding: 10,
-                borderWidth: 1,
-                borderColor: appColors.BORDER_COLOR,
-              }}
-              placeholder="Enter your email"
-              onChangeText={text => setEmail(text)}
-              value={email}
-            />
-          </View>
-          <View style={{marginVertical: 10}}>
-            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
-              Password
-            </Text>
-            <TextInput
-              style={{
-                backgroundColor: appColors.WHITE,
-                marginTop: 10,
-                borderRadius: 5,
-                padding: 10,
-                borderWidth: 1,
-                borderColor: appColors.BORDER_COLOR,
-              }}
-              secureTextEntry
-              placeholder="Enter your password"
-              onChangeText={text => setPassword(text)}
-              value={password}
-            />
-          </View>
-          <View style={{marginVertical: 10}}>
-            <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
-              Confirm password
-            </Text>
-            <TextInput
-              style={{
-                backgroundColor: appColors.WHITE,
-                marginTop: 10,
-                borderRadius: 5,
-                padding: 10,
-                borderWidth: 1,
-                borderColor: appColors.BORDER_COLOR,
-              }}
-              secureTextEntry
-              placeholder="Confirm password"
-              onChangeText={text => setConfirmPassword(text)}
-              value={confirmPassword}
-            />
-          </View>
-          {isSubmitting ? (
+      <KeyboardAvoidingView
+        style={{backgroundColor: appColors.BACKGROUND_COLOR}}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: appColors.BACKGROUND_COLOR,
+            }}>
             <View
               style={{
-                backgroundColor: appColors.BLUE,
-                padding: 15,
-                marginTop: 10,
-                borderRadius: 5,
-                justifyContent: 'center',
+                padding: 10,
+                width: '100%',
                 alignItems: 'center',
-                flexDirection: 'row',
+                justifyContent: 'center',
+                paddingTop: 50,
               }}>
-              <ActivityIndicator color={appColors.WHITE} />
+              <Image
+                source={require('../../../assets/logo.png')}
+                style={{width: 90, height: 90, borderRadius: 10}}
+              />
               <Text
                 style={{
-                  color: appColors.WHITE,
-                  textAlign: 'center',
-                  fontSize: 18,
-                  marginLeft: 10,
+                  color: appColors.BLACK,
+                  fontSize: 20,
+                  fontWeight: '700',
                 }}>
-                Registering
+                Bloodsmeter
               </Text>
-            </View>
-          ) : (
-            <Pressable onPress={() => handleSubmit()}>
-              <View
+              <Text
                 style={{
-                  backgroundColor: appColors.BLUE,
-                  padding: 15,
-                  marginTop: 10,
-                  borderRadius: 5,
+                  color: appColors.BLACK,
+                  fontSize: 20,
+                  fontWeight: '700',
                 }}>
-                <Text
-                  style={{
-                    color: appColors.WHITE,
-                    textAlign: 'center',
-                    fontSize: 18,
-                  }}>
-                  Register
-                </Text>
-              </View>
-            </Pressable>
-          )}
-
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <View style={{marginTop: 20}}>
-              <Text style={{textAlign: 'center', color: appColors.OXFORD_BLUE}}>
-                Already have account? Login
+                Patients Register
               </Text>
             </View>
-          </TouchableOpacity>
-        </View>
-      </View>
+            <View style={{width: '90%', marginTop: 40}}>
+              <View style={{marginVertical: 10}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+                  Names
+                </Text>
+                <TextInput
+                  style={{
+                    backgroundColor: appColors.WHITE,
+                    marginTop: 10,
+                    borderRadius: 5,
+                    padding: 10,
+                    borderWidth: 1,
+                    borderColor: appColors.BORDER_COLOR,
+                  }}
+                  placeholder="Enter your full names"
+                  onChangeText={text => setNames(text)}
+                  value={names}
+                />
+              </View>
+
+              <View style={{marginVertical: 10}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+                  Phone Number
+                </Text>
+                <TextInput
+                  style={{
+                    backgroundColor: appColors.WHITE,
+                    marginTop: 10,
+                    borderRadius: 5,
+                    padding: 10,
+                    borderWidth: 1,
+                    borderColor: appColors.BORDER_COLOR,
+                  }}
+                  placeholder="Enter your phone"
+                  onChangeText={text => setEmail(text)}
+                  keyboardType="number-pad"
+                  value={email}
+                />
+              </View>
+              <View style={{marginVertical: 10}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+                  Password
+                </Text>
+                <TextInput
+                  style={{
+                    backgroundColor: appColors.WHITE,
+                    marginTop: 10,
+                    borderRadius: 5,
+                    padding: 10,
+                    borderWidth: 1,
+                    borderColor: appColors.BORDER_COLOR,
+                  }}
+                  secureTextEntry
+                  placeholder="Enter your password"
+                  onChangeText={text => setPassword(text)}
+                  value={password}
+                />
+              </View>
+              <View style={{marginVertical: 10}}>
+                <Text style={{color: appColors.FOOTER_BODY_TEXT_COLOR}}>
+                  Confirm password
+                </Text>
+                <TextInput
+                  style={{
+                    backgroundColor: appColors.WHITE,
+                    marginTop: 10,
+                    borderRadius: 5,
+                    padding: 10,
+                    borderWidth: 1,
+                    borderColor: appColors.BORDER_COLOR,
+                  }}
+                  secureTextEntry
+                  placeholder="Confirm password"
+                  onChangeText={text => setConfirmPassword(text)}
+                  value={confirmPassword}
+                />
+              </View>
+              {isSubmitting ? (
+                <View
+                  style={{
+                    backgroundColor: appColors.BLUE,
+                    padding: 15,
+                    marginTop: 10,
+                    borderRadius: 5,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
+                  <ActivityIndicator color={appColors.WHITE} />
+                  <Text
+                    style={{
+                      color: appColors.WHITE,
+                      textAlign: 'center',
+                      fontSize: 18,
+                      marginLeft: 10,
+                    }}>
+                    Registering
+                  </Text>
+                </View>
+              ) : (
+                <Pressable onPress={() => handleSubmit()}>
+                  <View
+                    style={{
+                      backgroundColor: appColors.BLUE,
+                      padding: 15,
+                      marginTop: 10,
+                      borderRadius: 5,
+                    }}>
+                    <Text
+                      style={{
+                        color: appColors.WHITE,
+                        textAlign: 'center',
+                        fontSize: 18,
+                      }}>
+                      Register
+                    </Text>
+                  </View>
+                </Pressable>
+              )}
+
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <View style={{marginTop: 20}}>
+                  <Text
+                    style={{textAlign: 'center', color: appColors.OXFORD_BLUE}}>
+                    Already have account? Login
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
       <FullPageLoader isLoading={isSubmitting} />
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

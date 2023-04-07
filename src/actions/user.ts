@@ -1,6 +1,7 @@
 export const SET_USER_NAMES = 'SET_USER_NAMES';
 export const SET_USER_EMAIL = 'SET_USER_EMAIL';
 export const SET_USER_TOKEN = 'SET_USER_TOKEN';
+export const SET_USER_PHONE = 'SET_USER_PHONE';
 export const SET_USER_ROLE = 'SET_USER_ROLE';
 export const SET_USER_ID = 'SET_USER_ID';
 export const RESET_USER = 'RESET_USER';
@@ -15,6 +16,10 @@ export const setUserNames = (names: string): IAction => ({
 });
 export const setUserEmail = (value: string): IAction => ({
   type: SET_USER_EMAIL,
+  payload: value,
+});
+export const setUserPhone = (value: string): IAction => ({
+  type: SET_USER_PHONE,
   payload: value,
 });
 
