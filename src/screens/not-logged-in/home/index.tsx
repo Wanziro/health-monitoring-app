@@ -26,11 +26,11 @@ function Home({navigation}: INavigationProp) {
             fontWeight: '700',
             width: '60%',
             textAlign: 'center',
-            textTransform: 'capitalize',
+            textTransform: 'uppercase',
           }}>
           Bloodsmeter
         </Text>
-        <View style={{marginTop: 10}}>
+        <View style={{marginTop: 40}}>
           <Pressable
             style={{width: width - 50}}
             onPress={() => navigation.navigate('Login')}>
