@@ -26,9 +26,9 @@ function Home({navigation}: INavigationProp) {
             fontWeight: '700',
             width: '60%',
             textAlign: 'center',
-            textTransform: 'uppercase',
+            textTransform: 'capitalize',
           }}>
-          health management system
+          Bloodsmeter
         </Text>
         <View style={{marginTop: 10}}>
           <Pressable
