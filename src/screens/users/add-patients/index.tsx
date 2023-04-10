@@ -144,6 +144,7 @@ function AddPatients({navigation}: INavigationProp) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 placeholder="Patient Names"
                 onChangeText={(text: string) =>
@@ -165,6 +166,7 @@ function AddPatients({navigation}: INavigationProp) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 placeholder="Patient ages"
                 onChangeText={(text: string) =>
@@ -186,6 +188,7 @@ function AddPatients({navigation}: INavigationProp) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 placeholder="Patient's Height"
                 onChangeText={(text: string) =>
@@ -207,6 +210,7 @@ function AddPatients({navigation}: INavigationProp) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 placeholder="Patient's weight"
                 onChangeText={(text: string) =>
@@ -248,6 +252,7 @@ function AddPatients({navigation}: INavigationProp) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 placeholder="Enter medication"
                 multiline={true}
@@ -269,6 +274,7 @@ function AddPatients({navigation}: INavigationProp) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 placeholder="Medical History"
                 multiline={true}
@@ -290,6 +296,7 @@ function AddPatients({navigation}: INavigationProp) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 placeholder="Enter email"
                 onChangeText={(text: string) =>

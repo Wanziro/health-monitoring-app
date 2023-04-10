@@ -72,6 +72,7 @@ function ChangePassword({navigation}: INavigationProp) {
             borderColor: appColors.BORDER_COLOR,
             borderWidth: 1,
             marginVertical: 10,
+            color: appColors.BLACK,
           }}
           placeholder="Current password"
           secureTextEntry
@@ -85,6 +86,7 @@ function ChangePassword({navigation}: INavigationProp) {
             borderColor: appColors.BORDER_COLOR,
             borderWidth: 1,
             marginVertical: 10,
+            color: appColors.BLACK,
           }}
           placeholder="New password"
           secureTextEntry
@@ -100,6 +102,7 @@ function ChangePassword({navigation}: INavigationProp) {
             borderColor: appColors.BORDER_COLOR,
             borderWidth: 1,
             marginVertical: 10,
+            color: appColors.BLACK,
           }}
           placeholder="New password"
           secureTextEntry

@@ -152,6 +152,7 @@ function Register({navigation}: INavigationProp) {
                     padding: 10,
                     borderWidth: 1,
                     borderColor: appColors.BORDER_COLOR,
+                    color: appColors.BLACK,
                   }}
                   placeholder="Enter your full names"
                   onChangeText={text => setNames(text)}
@@ -170,6 +171,7 @@ function Register({navigation}: INavigationProp) {
                     padding: 10,
                     borderWidth: 1,
                     borderColor: appColors.BORDER_COLOR,
+                    color: appColors.BLACK,
                   }}
                   placeholder="Enter your phone"
                   onChangeText={text => setEmail(text)}
@@ -215,6 +217,7 @@ function Register({navigation}: INavigationProp) {
                     padding: 10,
                     borderWidth: 1,
                     borderColor: appColors.BORDER_COLOR,
+                    color: appColors.BLACK,
                   }}
                   secureTextEntry
                   placeholder="Enter your password"
@@ -234,6 +237,7 @@ function Register({navigation}: INavigationProp) {
                     padding: 10,
                     borderWidth: 1,
                     borderColor: appColors.BORDER_COLOR,
+                    color: appColors.BLACK,
                   }}
                   secureTextEntry
                   placeholder="Confirm password"

@@ -25,6 +25,7 @@ export const commonInput = {
   padding: 10,
   borderWidth: 1,
   borderColor: appColors.BORDER_COLOR,
+  color: appColors.BLACK,
 };
 
 export const commonAdminButtonTextStyles: StyleProp<TextStyle> = {

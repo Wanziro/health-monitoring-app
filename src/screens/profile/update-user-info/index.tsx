@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     backgroundColor: appColors.WHITE,
+    color: appColors.BLACK,
   },
   inputDesabled: {
     padding: 10,

@@ -118,6 +118,7 @@ function Login({navigation}: ILogin) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 keyboardType="number-pad"
                 placeholder="Enter your phone number"
@@ -138,6 +139,7 @@ function Login({navigation}: ILogin) {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: appColors.BORDER_COLOR,
+                  color: appColors.BLACK,
                 }}
                 secureTextEntry
                 placeholder="Enter your password"
