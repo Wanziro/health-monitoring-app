@@ -10,7 +10,7 @@ import {
   Alert,
   DeviceEventEmitter,
 } from 'react-native';
-import {RNSerialport, definitions, actions} from 'react-native-serialport';
+import {RNSerialport, definitions, actions} from 'react-native-usb-serialport';
 //type Props = {};
 class HealthCheckHome extends Component {
   constructor(props) {
