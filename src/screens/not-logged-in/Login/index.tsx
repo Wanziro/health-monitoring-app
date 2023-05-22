@@ -29,9 +29,9 @@ import {
   setUserRole,
   setUserToken,
 } from '../../../actions/user';
-import {app} from '../../../constants/app';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {appColors} from '../../../constants/colors';
+import {app} from '../../../constants/app';
 
 const {width} = Dimensions.get('window');
 interface ILogin {
