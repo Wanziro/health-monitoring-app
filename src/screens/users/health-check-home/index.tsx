@@ -2,6 +2,7 @@
 import {View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import SerialPortAPI from 'react-native-serial-port-api';
+import {appColors} from '../../../constants/colors';
 
 const HealthCheckHome = () => {
   const [devices, setDevices] = useState('');
@@ -25,9 +26,9 @@ const HealthCheckHome = () => {
   return (
     <View style={{padding: 10}}>
       <Text style={{fontWeight: '600'}}>Device List:</Text>
-      <Text>{devices}</Text>
+      <Text style={{color: appColors.BLACK}}>{devices}</Text>
       <Text>Error:</Text>
-      <Text>{deviceError}</Text>
+      <Text style={{color: appColors.BLACK}}>{deviceError}</Text>
     </View>
   );
 };
