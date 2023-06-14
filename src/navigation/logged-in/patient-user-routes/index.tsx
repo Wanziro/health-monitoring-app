@@ -8,17 +8,12 @@ import {Pressable, View, Text} from 'react-native';
 import Home from '../../../screens/patient-users/home';
 import {appColors} from '../../../constants/colors';
 import DetectionMenu from '../../../screens/patient-users/detection-menu';
-import AddPatients from '../../../screens/patient-users/add-patients';
-import ChoosePatient from '../../../screens/patient-users/choose-patient';
 import ChangePassword from '../../../screens/profile/change-password';
 import UpdateUserInfo from '../../../screens/profile/update-user-info';
 import Profile from '../../../screens/profile';
-import DetectedPatient from '../../../screens/patient-users/detected-patient';
 import TestResults from '../../../screens/patient-users/test-results';
 import TestOptions from '../../../screens/patient-users/test-options';
 import {INavigationProp} from '../../../interfaces';
-import GeneratedQRCode from '../../../screens/patient-users/generated-qr-code';
-import ScanQRCode from '../../../screens/patient-users/scan-qr-code';
 import HealthCheckHome from '../../../screens/patient-users/health-check-home';
 import Confirmation from '../../../screens/patient-users/confirmation';
 
@@ -66,33 +61,6 @@ const UserRoutes = () => {
           component={DetectionMenu}
           options={{
             title: 'subject information',
-            headerTintColor: appColors.WHITE,
-            headerStyle: {backgroundColor: appColors.BLUE},
-          }}
-        />
-        <Stack.Screen
-          name="AddPatients"
-          component={AddPatients}
-          options={{
-            title: 'Add Patient',
-            headerTintColor: appColors.WHITE,
-            headerStyle: {backgroundColor: appColors.BLUE},
-          }}
-        />
-        <Stack.Screen
-          name="ChoosePatient"
-          component={ChoosePatient}
-          options={{
-            title: 'Choose from existing patients',
-            headerTintColor: appColors.WHITE,
-            headerStyle: {backgroundColor: appColors.BLUE},
-          }}
-        />
-        <Stack.Screen
-          name="DetectedPatient"
-          component={DetectedPatient}
-          options={{
-            title: 'Detected Person',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}
@@ -147,24 +115,6 @@ const UserRoutes = () => {
           component={Confirmation}
           options={{
             title: 'Please confirm',
-            headerTintColor: appColors.WHITE,
-            headerStyle: {backgroundColor: appColors.BLUE},
-          }}
-        />
-        <Stack.Screen
-          name="GeneRatedQRCode"
-          component={GeneratedQRCode}
-          options={{
-            title: 'QR CODE',
-            headerTintColor: appColors.WHITE,
-            headerStyle: {backgroundColor: appColors.BLUE},
-          }}
-        />
-        <Stack.Screen
-          name="ScanQRCode"
-          component={ScanQRCode}
-          options={{
-            title: 'SCAN CODE',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}
