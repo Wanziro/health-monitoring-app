@@ -15,8 +15,6 @@ export interface IAction {
 
 export interface IAppConfig {
   backendUrl: string;
-  imageUrl: string;
-  imageUploadUrl: string;
 }
 
 export interface INavigationProp {
