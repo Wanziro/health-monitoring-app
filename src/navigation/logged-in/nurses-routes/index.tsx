@@ -5,22 +5,22 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Pressable, View, Text} from 'react-native';
 
-import Home from '../../../screens/users/home';
+import Home from '../../../screens/nurses/home';
 import {appColors} from '../../../constants/colors';
-import DetectionMenu from '../../../screens/users/detection-menu';
-import AddPatients from '../../../screens/users/add-patients';
-import ChoosePatient from '../../../screens/users/choose-patient';
+import DetectionMenu from '../../../screens/nurses/detection-menu';
+import AddPatients from '../../../screens/nurses/add-patients';
+import ChoosePatient from '../../../screens/nurses/choose-patient';
 import ChangePassword from '../../../screens/profile/change-password';
 import UpdateUserInfo from '../../../screens/profile/update-user-info';
 import Profile from '../../../screens/profile';
-import DetectedPatient from '../../../screens/users/detected-patient';
-import TestResults from '../../../screens/users/test-results';
-import TestOptions from '../../../screens/users/test-options';
+import DetectedPatient from '../../../screens/nurses/detected-patient';
+import TestResults from '../../../screens/nurses/test-results';
+import TestOptions from '../../../screens/nurses/test-options';
 import {INavigationProp} from '../../../interfaces';
-import GeneratedQRCode from '../../../screens/users/generated-qr-code';
-import ScanQRCode from '../../../screens/users/scan-qr-code';
-import HealthCheckHome from '../../../screens/users/health-check-home';
-import Confirmation from '../../../screens/users/confirmation';
+import GeneratedQRCode from '../../../screens/nurses/generated-qr-code';
+import ScanQRCode from '../../../screens/nurses/scan-qr-code';
+import HealthCheckHome from '../../../screens/nurses/health-check-home';
+import Confirmation from '../../../screens/nurses/confirmation';
 
 const Stack = createNativeStackNavigator();
 
