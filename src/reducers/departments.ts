@@ -10,12 +10,15 @@ const initialState: IDepartmentReducer = {
   isLoading: false,
 };
 
-const departmentsReducer = (state = initialState, action: IAction) => {
+const departmentsReducer = (
+  state = initialState,
+  action: IAction,
+): IDepartmentReducer => {
   switch (action.type) {
     case SET_DEPARTMENTS:
-      return {...state, departments: action.payload as IDepartment[]};
+      return {...state, departments: action.payload};
     case SET_IS_LOADING_DEPARTMENTS:
-      return {...state, isLoading: action.payload as boolean};
+      return {...state, isLoading: action.payload};
     case RESET_DEPARTMENTS:
       return initialState;
     default:

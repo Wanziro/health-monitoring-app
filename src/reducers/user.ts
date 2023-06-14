@@ -16,7 +16,7 @@ const initialState: IUser = {
   role: '',
 };
 
-const user = (state: IUser = initialState, action: IAction) => {
+const user = (state: IUser = initialState, action: IAction): IUser => {
   switch (action.type) {
     case SET_USER_NAMES:
       return {...state, fullName: action.payload};

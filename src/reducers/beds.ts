@@ -6,12 +6,12 @@ const initialState: IBedReducer = {
   isLoading: false,
 };
 
-const bedsReducer = (state = initialState, action: IAction) => {
+const bedsReducer = (state = initialState, action: IAction): IBedReducer => {
   switch (action.type) {
     case SET_BEDS:
-      return {...state, beds: action.payload as IBed[]};
+      return {...state, beds: action.payload};
     case SET_IS_LOADING_BEDS:
-      return {...state, isLoading: action.payload as boolean};
+      return {...state, isLoading: action.payload};
     case RESET_BEDS:
       return initialState;
     default:
