@@ -11,6 +11,7 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
+import {appColors} from '../../../constants/colors';
 //type Props = {};
 class HealthCheckHome extends Component {
   constructor(props) {
@@ -162,26 +163,26 @@ class HealthCheckHome extends Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={styles.line}>
-              <Text style={styles.title}>Service:</Text>
-              <Text style={styles.value}>
+              <Text style={{...styles.title, color: 'black'}}>Service:</Text>
+              <Text style={{...styles.value, color: 'black'}}>
                 {this.state.servisStarted ? 'Started' : 'Not Started'}
               </Text>
             </View>
             <View style={styles.line}>
-              <Text style={styles.title}>Usb:</Text>
-              <Text style={styles.value}>
+              <Text style={{...styles.title, color: 'black'}}>Usb:</Text>
+              <Text style={{...styles.value, color: 'black'}}>
                 {this.state.usbAttached ? 'Attached' : 'Not Attached'}
               </Text>
             </View>
             <View style={styles.line}>
-              <Text style={styles.title}>Connection:</Text>
-              <Text style={styles.value}>
+              <Text style={{...styles.title, color: 'black'}}>Connection:</Text>
+              <Text style={{...styles.value, color: 'black'}}>
                 {this.state.connected ? 'Connected' : 'Not Connected'}
               </Text>
             </View>
           </View>
           <ScrollView style={styles.output} nestedScrollEnabled={true}>
-            <Text style={styles.full}>
+            <Text style={{...styles.full, color: 'black'}}>
               {this.state.output === '' ? 'No Content' : this.state.output}
             </Text>
           </ScrollView>
@@ -248,15 +249,18 @@ const styles = StyleSheet.create({
   },
   title: {
     width: 100,
+    color: appColors.BLACK,
   },
   value: {
     marginLeft: 20,
+    color: appColors.BLACK,
   },
   output: {
     marginTop: 10,
     height: 300,
     padding: 10,
     backgroundColor: '#FFFFFF',
+    color: appColors.BLACK,
     borderWidth: 1,
   },
   inputContainer: {
@@ -267,6 +271,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     height: 40,
+    color: appColors.BLACK,
   },
   button: {
     marginTop: 16,
