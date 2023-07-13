@@ -148,6 +148,12 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','.aar'])
     // The version of react-native is set by the React Native Gradle Plugin
@@ -155,6 +161,7 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko-common:0.8.3"
     implementation project(':react-native-serialport')
+    implementation(name: 'usbserial-6.0.5-release', ext: 'aar')
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 
