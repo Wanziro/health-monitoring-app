@@ -222,6 +222,7 @@ class HealthCheckHome extends Component {
 const styles = StyleSheet.create({
   full: {
     flex: 1,
+    color: 'black',
   },
   body: {
     flex: 1,
@@ -248,9 +249,11 @@ const styles = StyleSheet.create({
   },
   title: {
     width: 100,
+    color: 'black',
   },
   value: {
     marginLeft: 20,
+    color: 'black',
   },
   output: {
     marginTop: 10,
@@ -267,6 +270,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     height: 40,
+    color: 'black',
   },
   button: {
     marginTop: 16,
