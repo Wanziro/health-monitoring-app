@@ -21,8 +21,10 @@ class HealthCheckHome extends Component {
       connected: false,
       usbAttached: false,
       output: '',
+      output2: '',
       outputArray: [],
-      baudRate: '115200',
+      // baudRate: '115200',
+      baudRate: '9600',
       interface: '-1',
       sendText: 'HELLO',
       returnedDataType: definitions.RETURNED_DATA_TYPES.HEXSTRING,
@@ -117,12 +119,26 @@ class HealthCheckHome extends Component {
     ) {
       const payload = RNSerialport.intArrayToUtf16(data.payload);
       this.setState({output: this.state.output + payload});
+      //
+      this.setState({output2: this.state.output2 + data.payload});
+      Alert.alert('Received string', data.payload);
+      //
     } else if (
       this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
     ) {
       const payload = RNSerialport.hexToUtf16(data.payload);
       this.setState({output: this.state.output + payload});
+
+      //
+      this.setState({output2: this.state.output2 + data.payload});
+      Alert.alert('Hex string', data.payload);
+      //
     }
+    //
+    try {
+      Alert.alert('Data received', JSON.stringify(data));
+    } catch (error) {}
+    //
   }
 
   onError(error) {
@@ -183,6 +199,7 @@ class HealthCheckHome extends Component {
           <ScrollView style={styles.output} nestedScrollEnabled={true}>
             <Text style={styles.full}>
               {this.state.output === '' ? 'No Content' : this.state.output}
+              {this.state.output2 === '' ? 'No Content2' : this.state.output2}
             </Text>
           </ScrollView>
 
