@@ -9,6 +9,7 @@ import {
   ScrollView,
   Alert,
   DeviceEventEmitter,
+  ToastAndroid,
 } from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
 
@@ -18,10 +19,13 @@ const HealthCheckHome = () => {
   const [usbAttached, setUsbAttached] = useState(false);
   const [output, setOutput] = useState('');
   const [output2, setOutput2] = useState('');
+  const [output3, setOutput3] = useState('');
   const [outputArray, setOutputArray] = useState([]);
   const [baudRate, setBaudRate] = useState('9600');
   const [interfaceValue, setInterfaceValue] = useState('-1');
-  const [sendText, setSendText] = useState('HELLO');
+  const [sendText, setSendText] = useState(
+    'aa aa 01 01 01 00 00 00 00 00 00 00 00 00 fa 31',
+  );
   const [returnedDataType, setReturnedDataType] = useState(
     definitions.RETURNED_DATA_TYPES.HEXSTRING,
   );
@@ -105,16 +109,12 @@ const HealthCheckHome = () => {
       const payload = RNSerialport.intArrayToUtf16(data.payload);
       setOutput(prevOutput => prevOutput + payload);
       setOutput2(prevOutput2 => prevOutput2 + data.payload);
-      Alert.alert('Received string', data.payload);
     } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
       const payload = RNSerialport.hexToUtf16(data.payload);
       setOutput(prevOutput => prevOutput + payload);
       setOutput2(prevOutput2 => prevOutput2 + data.payload);
-      Alert.alert('Hex string', data.payload);
     }
-    try {
-      Alert.alert('Data received', JSON.stringify(data));
-    } catch (error) {}
+    setOutput3(JSON.stringify(data));
   };
 
   const onError = error => {
@@ -135,6 +135,8 @@ const HealthCheckHome = () => {
 
   const handleClearButton = () => {
     setOutput('');
+    setOutput2('');
+    setOutput3('');
     setOutputArray([]);
   };
 
@@ -142,6 +144,15 @@ const HealthCheckHome = () => {
     return status
       ? styles.button
       : Object.assign({}, styles.button, {backgroundColor: '#C0C0C0'});
+  };
+
+  const handleSendHex = () => {
+    RNSerialport.writeHexString(sendText);
+    ToastAndroid('HEXSTRING sent');
+  };
+  const handleSendText = () => {
+    RNSerialport.writeString(sendText);
+    ToastAndroid('TEXTSTRING sent');
   };
 
   return (
@@ -169,8 +180,13 @@ const HealthCheckHome = () => {
         </View>
         <ScrollView style={styles.output} nestedScrollEnabled={true}>
           <Text style={styles.full}>
-            {output === '' ? 'No Content' : output}
-            {output2 === '' ? 'No Content2' : output2}
+            Response1: {output === '' ? 'No Content' : output}
+          </Text>
+          <Text style={styles.full}>
+            Response2: {output2 === '' ? 'No Content2' : output2}
+          </Text>
+          <Text style={styles.full}>
+            Response3: {output3 === '' ? 'No Content3' : output3}
           </Text>
         </ScrollView>
 
@@ -180,16 +196,24 @@ const HealthCheckHome = () => {
             style={styles.textInput}
             onChangeText={text => setSendText(text)}
             value={sendText}
-            placeholder={'Send Text'}
+            placeholder={'Send text or hex to device'}
           />
         </View>
         <View style={styles.line2}>
-          <TouchableOpacity
-            style={buttonStyle(connected)}
-            onPress={() => handleSendButton()}
-            disabled={!connected}>
-            <Text style={styles.buttonText}>Send</Text>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity
+              style={buttonStyle(connected)}
+              onPress={() => handleSendHex()}
+              disabled={!connected}>
+              <Text style={styles.buttonText}>Send Hex</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={buttonStyle(connected)}
+              onPress={() => handleSendText()}
+              disabled={!connected}>
+              <Text style={styles.buttonText}>Send Text</Text>
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleClearButton()}>
