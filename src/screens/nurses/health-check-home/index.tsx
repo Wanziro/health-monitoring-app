@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,78 +11,59 @@ import {
   DeviceEventEmitter,
 } from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
-//type Props = {};
-class HealthCheckHome extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      servisStarted: false,
-      connected: false,
-      usbAttached: false,
-      output: '',
-      output2: '',
-      outputArray: [],
-      // baudRate: '115200',
-      baudRate: '9600',
-      interface: '-1',
-      sendText: 'HELLO',
-      returnedDataType: definitions.RETURNED_DATA_TYPES.HEXSTRING,
+const HealthCheckHome = () => {
+  const [servisStarted, setServisStarted] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const [usbAttached, setUsbAttached] = useState(false);
+  const [output, setOutput] = useState('');
+  const [output2, setOutput2] = useState('');
+  const [outputArray, setOutputArray] = useState([]);
+  const [baudRate, setBaudRate] = useState('9600');
+  const [interfaceValue, setInterfaceValue] = useState('-1');
+  const [sendText, setSendText] = useState('HELLO');
+  const [returnedDataType, setReturnedDataType] = useState(
+    definitions.RETURNED_DATA_TYPES.HEXSTRING,
+  );
+
+  useEffect(() => {
+    startUsbListener();
+
+    return () => {
+      stopUsbListener();
     };
+  }, []);
 
-    this.startUsbListener = this.startUsbListener.bind(this);
-    this.stopUsbListener = this.stopUsbListener.bind(this);
-  }
-
-  componentDidMount() {
-    this.startUsbListener();
-  }
-
-  componentWillUnmount() {
-    this.stopUsbListener();
-  }
-
-  startUsbListener() {
+  const startUsbListener = () => {
     DeviceEventEmitter.addListener(
       actions.ON_SERVICE_STARTED,
-      this.onServiceStarted,
-      this,
+      onServiceStarted,
     );
     DeviceEventEmitter.addListener(
       actions.ON_SERVICE_STOPPED,
-      this.onServiceStopped,
-      this,
+      onServiceStopped,
     );
     DeviceEventEmitter.addListener(
       actions.ON_DEVICE_ATTACHED,
-      this.onDeviceAttached,
-      this,
+      onDeviceAttached,
     );
     DeviceEventEmitter.addListener(
       actions.ON_DEVICE_DETACHED,
-      this.onDeviceDetached,
-      this,
+      onDeviceDetached,
     );
-    DeviceEventEmitter.addListener(actions.ON_ERROR, this.onError, this);
-    DeviceEventEmitter.addListener(
-      actions.ON_CONNECTED,
-      this.onConnected,
-      this,
-    );
-    DeviceEventEmitter.addListener(
-      actions.ON_DISCONNECTED,
-      this.onDisconnected,
-      this,
-    );
-    DeviceEventEmitter.addListener(actions.ON_READ_DATA, this.onReadData, this);
-    RNSerialport.setReturnedDataType(this.state.returnedDataType);
-    RNSerialport.setAutoConnectBaudRate(parseInt(this.state.baudRate, 10));
-    RNSerialport.setInterface(parseInt(this.state.interface, 10));
+    DeviceEventEmitter.addListener(actions.ON_ERROR, onError);
+    DeviceEventEmitter.addListener(actions.ON_CONNECTED, onConnected);
+    DeviceEventEmitter.addListener(actions.ON_DISCONNECTED, onDisconnected);
+    DeviceEventEmitter.addListener(actions.ON_READ_DATA, onReadData);
+
+    RNSerialport.setReturnedDataType(returnedDataType);
+    RNSerialport.setAutoConnectBaudRate(parseInt(baudRate, 10));
+    RNSerialport.setInterface(parseInt(interfaceValue, 10));
     RNSerialport.setAutoConnect(true);
     RNSerialport.startUsbService();
-  }
+  };
 
-  stopUsbListener = async () => {
+  const stopUsbListener = async () => {
     DeviceEventEmitter.removeAllListeners();
     const isOpen = await RNSerialport.isOpen();
     if (isOpen) {
@@ -92,149 +73,138 @@ class HealthCheckHome extends Component {
     RNSerialport.stopUsbService();
   };
 
-  onServiceStarted(response) {
-    this.setState({servisStarted: true});
+  const onServiceStarted = response => {
+    setServisStarted(true);
     if (response.deviceAttached) {
-      this.onDeviceAttached();
+      onDeviceAttached();
     }
-  }
-  onServiceStopped() {
-    this.setState({servisStarted: false});
-  }
-  onDeviceAttached() {
-    this.setState({usbAttached: true});
-  }
-  onDeviceDetached() {
-    this.setState({usbAttached: false});
-  }
-  onConnected() {
-    this.setState({connected: true});
-  }
-  onDisconnected() {
-    this.setState({connected: false});
-  }
-  onReadData(data) {
-    if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY
-    ) {
-      const payload = RNSerialport.intArrayToUtf16(data.payload);
-      this.setState({output: this.state.output + payload});
-      //
-      this.setState({output2: this.state.output2 + data.payload});
-      Alert.alert('Received string', data.payload);
-      //
-    } else if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
-    ) {
-      const payload = RNSerialport.hexToUtf16(data.payload);
-      this.setState({output: this.state.output + payload});
+  };
 
-      //
-      this.setState({output2: this.state.output2 + data.payload});
+  const onServiceStopped = () => {
+    setServisStarted(false);
+  };
+
+  const onDeviceAttached = () => {
+    setUsbAttached(true);
+  };
+
+  const onDeviceDetached = () => {
+    setUsbAttached(false);
+  };
+
+  const onConnected = () => {
+    setConnected(true);
+  };
+
+  const onDisconnected = () => {
+    setConnected(false);
+  };
+
+  const onReadData = data => {
+    if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
+      const payload = RNSerialport.intArrayToUtf16(data.payload);
+      setOutput(prevOutput => prevOutput + payload);
+      setOutput2(prevOutput2 => prevOutput2 + data.payload);
+      Alert.alert('Received string', data.payload);
+    } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
+      const payload = RNSerialport.hexToUtf16(data.payload);
+      setOutput(prevOutput => prevOutput + payload);
+      setOutput2(prevOutput2 => prevOutput2 + data.payload);
       Alert.alert('Hex string', data.payload);
-      //
     }
-    //
     try {
       Alert.alert('Data received', JSON.stringify(data));
     } catch (error) {}
-    //
-  }
+  };
 
-  onError(error) {
+  const onError = error => {
     console.error(error);
-  }
+  };
 
-  handleConvertButton() {
+  const handleConvertButton = () => {
     let data = '';
-    if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
-    ) {
-      data = RNSerialport.hexToUtf16(this.state.output);
-    } else if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY
-    ) {
-      data = RNSerialport.intArrayToUtf16(this.state.outputArray);
+    if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
+      data = RNSerialport.hexToUtf16(output);
+    } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
+      data = RNSerialport.intArrayToUtf16(outputArray);
     } else {
       return;
     }
-    this.setState({output: data});
-  }
+    setOutput(data);
+  };
 
-  handleClearButton() {
-    this.setState({output: ''});
-    this.setState({outputArray: []});
-  }
+  const handleClearButton = () => {
+    setOutput('');
+    setOutputArray([]);
+  };
 
-  buttonStyle = status => {
+  const buttonStyle = status => {
     return status
       ? styles.button
       : Object.assign({}, styles.button, {backgroundColor: '#C0C0C0'});
   };
 
-  render() {
-    return (
-      <ScrollView style={styles.body}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.line}>
-              <Text style={styles.title}>Service:</Text>
-              <Text style={styles.value}>
-                {this.state.servisStarted ? 'Started' : 'Not Started'}
-              </Text>
-            </View>
-            <View style={styles.line}>
-              <Text style={styles.title}>Usb:</Text>
-              <Text style={styles.value}>
-                {this.state.usbAttached ? 'Attached' : 'Not Attached'}
-              </Text>
-            </View>
-            <View style={styles.line}>
-              <Text style={styles.title}>Connection:</Text>
-              <Text style={styles.value}>
-                {this.state.connected ? 'Connected' : 'Not Connected'}
-              </Text>
-            </View>
-          </View>
-          <ScrollView style={styles.output} nestedScrollEnabled={true}>
-            <Text style={styles.full}>
-              {this.state.output === '' ? 'No Content' : this.state.output}
-              {this.state.output2 === '' ? 'No Content2' : this.state.output2}
+  return (
+    <ScrollView style={styles.body}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.line}>
+            <Text style={styles.title}>Service:</Text>
+            <Text style={styles.value}>
+              {servisStarted ? 'Started' : 'Not Started'}
             </Text>
-          </ScrollView>
-
-          <View style={styles.inputContainer}>
-            <Text>Send</Text>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={text => this.setState({sendText: text})}
-              value={this.state.sendText}
-              placeholder={'Send Text'}
-            />
           </View>
-          <View style={styles.line2}>
-            <TouchableOpacity
-              style={this.buttonStyle(this.state.connected)}
-              onPress={() => this.handleSendButton()}
-              disabled={!this.state.connected}>
-              <Text style={styles.buttonText}>Send</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.handleClearButton()}>
-              <Text style={styles.buttonText}>Clear</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.handleConvertButton()}>
-              <Text style={styles.buttonText}>Convert</Text>
-            </TouchableOpacity>
+          <View style={styles.line}>
+            <Text style={styles.title}>Usb:</Text>
+            <Text style={styles.value}>
+              {usbAttached ? 'Attached' : 'Not Attached'}
+            </Text>
+          </View>
+          <View style={styles.line}>
+            <Text style={styles.title}>Connection:</Text>
+            <Text style={styles.value}>
+              {connected ? 'Connected' : 'Not Connected'}
+            </Text>
           </View>
         </View>
-      </ScrollView>
-    );
-  }
-}
+        <ScrollView style={styles.output} nestedScrollEnabled={true}>
+          <Text style={styles.full}>
+            {output === '' ? 'No Content' : output}
+            {output2 === '' ? 'No Content2' : output2}
+          </Text>
+        </ScrollView>
+
+        <View style={styles.inputContainer}>
+          <Text>Send</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => setSendText(text)}
+            value={sendText}
+            placeholder={'Send Text'}
+          />
+        </View>
+        <View style={styles.line2}>
+          <TouchableOpacity
+            style={buttonStyle(connected)}
+            onPress={() => handleSendButton()}
+            disabled={!connected}>
+            <Text style={styles.buttonText}>Send</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleClearButton()}>
+            <Text style={styles.buttonText}>Clear</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleConvertButton()}>
+            <Text style={styles.buttonText}>Convert</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   full: {
