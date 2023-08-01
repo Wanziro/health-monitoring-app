@@ -60,6 +60,7 @@ const HealthCheckHome = () => {
     DeviceEventEmitter.addListener(actions.ON_DISCONNECTED, onDisconnected);
     DeviceEventEmitter.addListener(actions.ON_READ_DATA, onReadData);
 
+    RNSerialport.setDriver(definitions.DRIVER_TYPES.CH34x);
     RNSerialport.setReturnedDataType(returnedDataType);
     RNSerialport.setAutoConnectBaudRate(parseInt(baudRate, 10));
     RNSerialport.setInterface(parseInt(interfaceValue, 10));
@@ -108,11 +109,11 @@ const HealthCheckHome = () => {
     if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       const payload = RNSerialport.intArrayToUtf16(data.payload);
       setOutput(prevOutput => prevOutput + payload);
-      setOutput2(prevOutput2 => prevOutput2 + data.payload);
+      setOutput2(prevOutput2 => prevOutput2 + '-' + data.payload);
     } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
       const payload = RNSerialport.hexToUtf16(data.payload);
       setOutput(prevOutput => prevOutput + payload);
-      setOutput2(prevOutput2 => prevOutput2 + data.payload);
+      setOutput2(prevOutput2 => prevOutput2 + '-' + data.payload);
     }
     setOutput3(JSON.stringify(data));
   };
@@ -148,11 +149,11 @@ const HealthCheckHome = () => {
 
   const handleSendHex = () => {
     RNSerialport.writeHexString(sendText);
-    ToastAndroid('HEXSTRING sent');
+    // ToastAndroid('HEXSTRING sent');
   };
   const handleSendText = () => {
     RNSerialport.writeString(sendText);
-    ToastAndroid('TEXTSTRING sent');
+    // ToastAndroid('TEXTSTRING sent');
   };
 
   return (
