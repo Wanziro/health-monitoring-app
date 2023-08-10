@@ -24,6 +24,8 @@ class HealthCheckHome extends Component {
       usbAttached: false,
       output: '',
       output2: '',
+      output3: '',
+      output4: '',
       outputArray: [],
       baudRate: '9600',
       interface: '-1',
@@ -126,16 +128,21 @@ class HealthCheckHome extends Component {
     ) {
       const payload = RNSerialport.intArrayToUtf16(data.payload);
       this.setState({output: this.state.output + payload});
+      this.setState({output2: this.state.output2 + data.payload});
     } else if (
       this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
     ) {
       const payload = RNSerialport.hexToUtf16(data.payload);
       this.setState({output: this.state.output + payload});
+      this.setState({output2: this.state.output2 + data.payload});
+    } else {
+      this.setState({output3: this.state.output3 + JSON.stringify(data)});
     }
   }
 
   onError(error) {
-    console.error(error);
+    // console.error(error);
+    this.setState({output4: JSON.stringify(error)});
   }
 
   handleConvertButton() {
