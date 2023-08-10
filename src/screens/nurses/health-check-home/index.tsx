@@ -192,7 +192,7 @@ class HealthCheckHome extends Component {
   }
 
   handleSendButtonHex() {
-    RNSerialport.writeString(this.state.sendText);
+    RNSerialport.writeHexString(this.state.sendText);
   }
   handleClearButton() {
     this.setState({output: ''});
@@ -277,12 +277,20 @@ class HealthCheckHome extends Component {
             />
           </View>
           <View style={styles.line2}>
-            <TouchableOpacity
-              style={this.buttonStyle(this.state.connected)}
-              onPress={() => this.handleSendButton()}
-              disabled={!this.state.connected}>
-              <Text style={styles.buttonText}>Send</Text>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                style={this.buttonStyle(this.state.connected)}
+                onPress={() => this.handleSendButtonHex()}
+                disabled={!this.state.connected}>
+                <Text style={styles.buttonText}>Send HEX</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={this.buttonStyle(this.state.connected)}
+                onPress={() => this.handleSendButton()}
+                disabled={!this.state.connected}>
+                <Text style={styles.buttonText}>Send Text</Text>
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.handleClearButton()}>
