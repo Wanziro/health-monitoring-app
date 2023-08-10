@@ -23,6 +23,7 @@ class HealthCheckHome extends Component {
       connected: false,
       usbAttached: false,
       output: '',
+      output2: '',
       outputArray: [],
       baudRate: '9600',
       interface: '-1',
