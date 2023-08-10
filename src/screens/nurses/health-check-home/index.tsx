@@ -190,6 +190,10 @@ class HealthCheckHome extends Component {
   handleSendButton() {
     RNSerialport.writeString(this.state.sendText);
   }
+
+  handleSendButtonHex() {
+    RNSerialport.writeString(this.state.sendText);
+  }
   handleClearButton() {
     this.setState({output: ''});
     this.setState({outputArray: []});
