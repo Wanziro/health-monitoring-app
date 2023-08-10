@@ -265,6 +265,9 @@ class HealthCheckHome extends Component {
             <Text style={styles.full}>
               {this.state.output === '' ? 'No Content' : this.state.output}
             </Text>
+            <Text style={styles.full}>Output2: {this.state.output2}</Text>
+            <Text style={styles.full}>Output3: {this.state.output3}</Text>
+            <Text style={styles.full}>Output4: {this.state.output4}</Text>
           </ScrollView>
 
           <View style={styles.inputContainer}>
@@ -362,6 +365,7 @@ class HealthCheckHome extends Component {
 const styles = StyleSheet.create({
   full: {
     flex: 1,
+    color: '#000',
   },
   body: {
     flex: 1,
