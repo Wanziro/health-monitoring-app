@@ -5,12 +5,12 @@ import {
   Text,
   View,
   TextInput,
-  Picker,
   TouchableOpacity,
   ScrollView,
   Alert,
   DeviceEventEmitter,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
 //type Props = {};
 
