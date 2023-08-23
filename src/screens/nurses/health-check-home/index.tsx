@@ -337,6 +337,7 @@ class HealthCheckHome extends Component {
               onValueChange={(value, index) =>
                 this.setState({selectedDevice: value})
               }>
+              <Picker.Item label="Choose device" value={null} />
               {this.devicePickerItems()}
             </Picker>
           </View>
