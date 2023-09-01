@@ -1,91 +1,58 @@
 //@ts-nocheck
-import React, {Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  DeviceEventEmitter,
-} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import React, {useState, useEffect} from 'react';
+import {Text, View, Pressable, Alert, DeviceEventEmitter} from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
-//type Props = {};
+import {appColors} from '../../../constants/colors';
+import {
+  commonAdminButtonContainerStyles,
+  commonAdminButtonTextStyles,
+} from '../../../constants/styles';
 
-class HealthCheckHome extends Component {
-  constructor(props) {
-    super(props);
+const HealthCheckHome = ({navigation}) => {
+  const [servisStarted, setServiceStarted] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const [usbAttached, setUsbAttached] = useState(false);
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [deviceList, setDeviceList] = useState([
+    {name: 'Device Not Found', placeholder: true},
+  ]);
+  const [returnedDataType, setReturnedDataType] = useState(
+    definitions.RETURNED_DATA_TYPES.HEXSTRING,
+  );
 
-    this.state = {
-      servisStarted: false,
-      connected: false,
-      usbAttached: false,
-      output: '',
-      output2: '',
-      output3: '',
-      output4: '',
-      outputArray: [],
-      baudRate: '9600',
-      interface: '-1',
-      selectedDevice: null,
-      deviceList: [{name: 'Device Not Found', placeholder: true}],
-      sendText: 'AA AA 01 01 01 00 00 00 00 00 00 00 00 00 FA 31',
-      returnedDataType: definitions.RETURNED_DATA_TYPES.HEXSTRING,
-    };
+  useEffect(() => {
+    startUsbListener();
+    return () => stopUsbListener();
+  }, []);
 
-    this.startUsbListener = this.startUsbListener.bind(this);
-    this.stopUsbListener = this.stopUsbListener.bind(this);
-  }
-
-  componentDidMount() {
-    this.startUsbListener();
-  }
-
-  componentWillUnmount() {
-    this.stopUsbListener();
-  }
-
-  startUsbListener() {
+  const startUsbListener = () => {
     DeviceEventEmitter.addListener(
       actions.ON_SERVICE_STARTED,
-      this.onServiceStarted,
-      this,
+      onServiceStarted,
     );
     DeviceEventEmitter.addListener(
       actions.ON_SERVICE_STOPPED,
-      this.onServiceStopped,
-      this,
+      onServiceStopped,
     );
     DeviceEventEmitter.addListener(
       actions.ON_DEVICE_ATTACHED,
-      this.onDeviceAttached,
-      this,
+      onDeviceAttached,
     );
     DeviceEventEmitter.addListener(
       actions.ON_DEVICE_DETACHED,
-      this.onDeviceDetached,
-      this,
+      onDeviceDetached,
     );
-    DeviceEventEmitter.addListener(actions.ON_ERROR, this.onError, this);
-    DeviceEventEmitter.addListener(
-      actions.ON_CONNECTED,
-      this.onConnected,
-      this,
-    );
-    DeviceEventEmitter.addListener(
-      actions.ON_DISCONNECTED,
-      this.onDisconnected,
-      this,
-    );
-    DeviceEventEmitter.addListener(actions.ON_READ_DATA, this.onReadData, this);
-    RNSerialport.setReturnedDataType(this.state.returnedDataType);
+    DeviceEventEmitter.addListener(actions.ON_ERROR, onError);
+    DeviceEventEmitter.addListener(actions.ON_CONNECTED, onConnected);
+    DeviceEventEmitter.addListener(actions.ON_DISCONNECTED, onDisconnected);
+    // DeviceEventEmitter.addListener(actions.ON_READ_DATA, onReadData);
+
+    RNSerialport.setReturnedDataType(returnedDataType);
     RNSerialport.setAutoConnect(false);
     RNSerialport.startUsbService();
-  }
+  };
 
-  stopUsbListener = async () => {
+  const stopUsbListener = async () => {
     DeviceEventEmitter.removeAllListeners();
     const isOpen = await RNSerialport.isOpen();
     if (isOpen) {
@@ -95,341 +62,83 @@ class HealthCheckHome extends Component {
     RNSerialport.stopUsbService();
   };
 
-  onServiceStarted(response) {
-    this.setState({servisStarted: true});
+  const onServiceStarted = response => {
+    setServiceStarted(true);
     if (response.deviceAttached) {
-      this.onDeviceAttached();
+      onDeviceAttached();
     }
-  }
-  onServiceStopped() {
-    this.setState({servisStarted: false});
+  };
+
+  const onServiceStopped = () => {
+    setServiceStarted(false);
     Alert.alert('service stopped');
-  }
-  onDeviceAttached() {
-    this.setState({usbAttached: true});
-    this.fillDeviceList();
-  }
-  onDeviceDetached() {
-    this.setState({usbAttached: false});
-    this.setState({selectedDevice: null});
-    this.setState({
-      deviceList: [{name: 'Device Not Found', placeholder: true}],
-    });
-  }
-  onConnected() {
-    this.setState({connected: true});
-  }
-  onDisconnected() {
-    this.setState({connected: false});
-  }
-  onReadData(data) {
-    if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY
-    ) {
-      const payload = RNSerialport.intArrayToUtf16(data.payload);
-      this.setState({output: this.state.output + payload});
-      this.setState({output2: this.state.output2 + data.payload});
-    } else if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
-    ) {
-      const payload = RNSerialport.hexToUtf16(data.payload);
-      this.setState({output: this.state.output + payload});
-      this.setState({output2: this.state.output2 + data.payload});
-    } else {
-      this.setState({output3: this.state.output3 + JSON.stringify(data)});
-    }
-  }
-
-  onError(error) {
-    // console.error(error);
-    this.setState({output4: JSON.stringify(error)});
-  }
-
-  handleConvertButton() {
-    let data = '';
-    if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
-    ) {
-      data = RNSerialport.hexToUtf16(this.state.output);
-    } else if (
-      this.state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY
-    ) {
-      data = RNSerialport.intArrayToUtf16(this.state.outputArray);
-    } else {
-      return;
-    }
-    this.setState({output: data});
-  }
-  fillDeviceList = async () => {
-    try {
-      const deviceList = await RNSerialport.getDeviceList();
-      if (deviceList.length > 0) {
-        this.setState({deviceList});
-      } else {
-        this.setState({
-          deviceList: [{name: 'Device Not Found', placeholder: true}],
-        });
-      }
-    } catch (err) {
-      Alert.alert(
-        'Error from getDeviceList()',
-        err.errorCode + ' ' + err.errorMessage,
-      );
-    }
-  };
-  devicePickerItems() {
-    return this.state.deviceList.map((device, index) =>
-      !device.placeholder ? (
-        <Picker.Item key={index} label={device.name} value={device} />
-      ) : (
-        <Picker.Item key={index} label={device.name} value={null} />
-      ),
-    );
-  }
-
-  handleSendButton() {
-    RNSerialport.writeString(this.state.sendText);
-  }
-
-  handleSendButtonHex() {
-    RNSerialport.writeHexString(this.state.sendText);
-  }
-  handleClearButton() {
-    this.setState({output: ''});
-    this.setState({outputArray: []});
-  }
-
-  checkSupport() {
-    if (
-      this.state.selectedDevice.name === undefined ||
-      this.state.selectedDevice === null
-    )
-      return;
-    RNSerialport.isSupported(this.state.selectedDevice.name)
-      .then(status => {
-        alert(status ? 'Supported' : 'Not Supported');
-      })
-      .catch(error => {
-        alert(JSON.stringify(error));
-      });
-  }
-
-  handleConnectButton = async () => {
-    const isOpen = await RNSerialport.isOpen();
-    if (isOpen) {
-      RNSerialport.disconnect();
-    } else {
-      if (!this.state.selectedDevice) {
-        alert('Please choose device');
-        return;
-      }
-      RNSerialport.setInterface(parseInt(this.state.interface, 10));
-      RNSerialport.connectDevice(
-        this.state.selectedDevice.name,
-        parseInt(this.state.baudRate, 10),
-      );
-    }
   };
 
-  buttonStyle = status => {
-    return status
-      ? styles.button
-      : Object.assign({}, styles.button, {backgroundColor: '#C0C0C0'});
+  const onDeviceAttached = () => {
+    setUsbAttached(true);
   };
 
-  render() {
-    return (
-      <ScrollView style={styles.body}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.line}>
-              <Text style={styles.title}>Service:</Text>
-              <Text style={styles.value}>
-                {this.state.servisStarted ? 'Started' : 'Not Started'}
-              </Text>
-            </View>
-            <View style={styles.line}>
-              <Text style={styles.title}>Usb:</Text>
-              <Text style={styles.value}>
-                {this.state.usbAttached ? 'Attached' : 'Not Attached'}
-              </Text>
-            </View>
-            <View style={styles.line}>
-              <Text style={styles.title}>Connection:</Text>
-              <Text style={styles.value}>
-                {this.state.connected ? 'Connected' : 'Not Connected'}
-              </Text>
-            </View>
-          </View>
-          <ScrollView style={styles.output} nestedScrollEnabled={true}>
-            <Text style={styles.full}>
-              {this.state.output === '' ? 'No Content' : this.state.output}
-            </Text>
-            <Text style={styles.full}>Output2: {this.state.output2}</Text>
-            <Text style={styles.full}>Output3: {this.state.output3}</Text>
-            <Text style={styles.full}>Output4: {this.state.output4}</Text>
-          </ScrollView>
+  const onDeviceDetached = () => {
+    setUsbAttached(false);
+    setSelectedDevice(null);
+    setDeviceList([{name: 'Device Not Found', placeholder: true}]);
+  };
 
-          <View style={styles.inputContainer}>
-            <Text>Send</Text>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={text => this.setState({sendText: text})}
-              value={this.state.sendText}
-              placeholder={'Send Text'}
-            />
-          </View>
-          <View style={styles.line2}>
-            <View>
-              <TouchableOpacity
-                style={this.buttonStyle(this.state.connected)}
-                onPress={() => this.handleSendButtonHex()}
-                disabled={!this.state.connected}>
-                <Text style={styles.buttonText}>Send HEX</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={this.buttonStyle(this.state.connected)}
-                onPress={() => this.handleSendButton()}
-                disabled={!this.state.connected}>
-                <Text style={styles.buttonText}>Send Text</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.handleClearButton()}>
-              <Text style={styles.buttonText}>Clear</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.handleConvertButton()}>
-              <Text style={styles.buttonText}>Convert</Text>
-            </TouchableOpacity>
-          </View>
+  const onConnected = () => {
+    setConnected(true);
+  };
 
-          <View style={styles.line2}>
-            <View style={styles.inputContainer}>
-              <Text>Baud Rate</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={text => this.setState({baudRate: text})}
-                value={this.state.baudRate}
-                placeholder={'Baud Rate'}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text>Interface</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={text => this.setState({interface: text})}
-                value={this.state.interface}
-                placeholder={'Interface'}
-              />
-            </View>
-          </View>
-          <View style={styles.inputContainer}>
-            <Text>Device List</Text>
-            <Picker
-              enabled={
-                this.state.deviceList.length > 0 &&
-                !this.state.deviceList[0].placeholder
-              }
-              selectedValue={this.state.selectedDevice}
-              onValueChange={(value, index) =>
-                this.setState({selectedDevice: value})
-              }>
-              <Picker.Item label="Choose device" value={null} />
-              {this.devicePickerItems()}
-            </Picker>
-          </View>
-          <TouchableOpacity
-            style={this.buttonStyle(this.state.selectedDevice)}
-            disabled={!this.state.selectedDevice}
-            onPress={() => this.handleConnectButton()}>
-            <Text style={styles.buttonText}>
-              {this.state.connected ? 'Disconnect' : 'Connect'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={this.buttonStyle(this.state.selectedDevice)}
-            disabled={!this.state.selectedDevice}
-            onPress={() => {
-              this.checkSupport();
-            }}>
-            <Text style={styles.buttonText}>Check Support</Text>
-          </TouchableOpacity>
+  const onDisconnected = () => {
+    setConnected(false);
+  };
+
+  const onError = error => {
+    Alert(JSON.stringify(error));
+  };
+
+  return (
+    <>
+      <View
+        style={{
+          backgroundColor: appColors.BACKGROUND_COLOR,
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View style={{padding: 10}}>
+          {servisStarted && usbAttached ? (
+            <>
+              <Text
+                style={{
+                  fontSize: 20,
+                  textAlign: 'center',
+                  color: appColors.BLACK,
+                }}>
+                The device is connected and you can continue
+              </Text>
+              <Pressable onPress={() => navigation.navigate('TestOptions')}>
+                <View style={[commonAdminButtonContainerStyles]}>
+                  <Text style={[commonAdminButtonTextStyles]}>Next Step</Text>
+                </View>
+              </Pressable>
+            </>
+          ) : (
+            <>
+              <Text
+                style={{
+                  fontSize: 20,
+                  textAlign: 'center',
+                  color: appColors.BLACK,
+                }}>
+                There is no device connected, Please attach the device to
+                continue.
+              </Text>
+            </>
+          )}
         </View>
-      </ScrollView>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  full: {
-    flex: 1,
-    color: '#000',
-  },
-  body: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    marginTop: 20,
-    marginLeft: 16,
-    marginRight: 16,
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'center',
-    //alignItems: "center"
-  },
-  line: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  line2: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  title: {
-    width: 100,
-  },
-  value: {
-    marginLeft: 20,
-  },
-  output: {
-    marginTop: 10,
-    height: 300,
-    padding: 10,
-    backgroundColor: '#FFFFFF',
-    color: '#000',
-    borderWidth: 1,
-  },
-  inputContainer: {
-    marginTop: 10,
-    borderBottomWidth: 2,
-    color: '#000',
-  },
-  textInput: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    height: 40,
-    color: '#000',
-  },
-  button: {
-    marginTop: 16,
-    marginBottom: 16,
-    paddingLeft: 15,
-    paddingRight: 15,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#147efb',
-    borderRadius: 3,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-  },
-});
+      </View>
+    </>
+  );
+};
 
 export default HealthCheckHome;
