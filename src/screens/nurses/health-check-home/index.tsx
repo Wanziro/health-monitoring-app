@@ -133,6 +133,11 @@ const HealthCheckHome = ({navigation}) => {
                 There is no device connected, Please attach the device to
                 continue.
               </Text>
+              <Pressable onPress={() => navigation.navigate('TestOptions')}>
+                <View style={[commonAdminButtonContainerStyles]}>
+                  <Text style={[commonAdminButtonTextStyles]}>Next Step</Text>
+                </View>
+              </Pressable>
             </>
           )}
         </View>
