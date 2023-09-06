@@ -195,13 +195,12 @@ const HealthCheckHome = () => {
         selectedDevice(deviceList[0]);
       }
     }
-  }, [usbAttached]);
+  }, [usbAttached, deviceList]);
 
   useEffect(() => {
     //connect to selected device
     if (selectedDevice !== null) {
       setActionLogs(prev => [...prev, 'Connecting to ' + selectedDevice?.name]);
-
       handleConnectButton();
     } else {
       setActionLogs(prev => [...prev, 'No device selected']);
