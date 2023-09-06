@@ -108,12 +108,12 @@ const HealthCheckHome = () => {
   const onReadData = data => {
     if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       const payload = RNSerialport.intArrayToUtf16(data.payload);
-      setOutput(output + payload);
+      setOutput(prev => prev + ' ' + payload);
     } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
       const payload = RNSerialport.hexToUtf16(data.payload);
-      setOutput(output + payload);
+      setOutput(prev => prev + ' ' + payload);
     } else {
-      setOutput(output + JSON.stringify(data));
+      setOutput(prev => prev + ' ' + JSON.stringify(data));
     }
   };
 
