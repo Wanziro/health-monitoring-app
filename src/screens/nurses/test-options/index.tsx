@@ -45,7 +45,7 @@ function TestOptions({navigation, route}: INavigationProp) {
           {[
             {name: 'Choose Test Item', value: ''},
             {name: 'Blood Sugar', value: 'Blood Sugar'},
-            {name: 'Uric Acid', value: 'Uric Acid'},
+            // {name: 'Uric Acid', value: 'Uric Acid'},
           ].map((model, i) => (
             <Picker.Item key={i} label={model.name} value={model.value} />
           ))}
