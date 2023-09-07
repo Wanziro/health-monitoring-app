@@ -137,9 +137,14 @@ const HealthCheckHome = () => {
     try {
       const deviceList = await RNSerialport.getDeviceList();
       if (deviceList.length > 0) {
+        setActionLogs(prev => [
+          ...prev,
+          'Found: ' + deviceList?.length + ' devices',
+        ]);
         setDeviceList(deviceList);
       } else {
-        setDeviceList([{name: 'Device Not Found', placeholder: true}]);
+        // setDeviceList([{name: 'Device Not Found', placeholder: true}]);
+        setActionLogs(prev => [...prev, 'Device Not Found']);
       }
     } catch (err) {
       Alert.alert(
@@ -192,8 +197,14 @@ const HealthCheckHome = () => {
       //select device
       if (deviceList.length > 0) {
         //select the first divice
-        selectedDevice(deviceList[0]);
+        setActionLogs(prev => [
+          ...prev,
+          'Selecting device ' + deviceList.length - 1,
+        ]);
+        setSelectedDevice(deviceList[deviceList.length]);
       }
+    } else {
+      setActionLogs(prev => [...prev, 'USB not attached!']);
     }
   }, [usbAttached, deviceList]);
 
