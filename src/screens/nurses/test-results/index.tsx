@@ -1,6 +1,13 @@
 //@ts-nocheck
 import React, {useState, useEffect} from 'react';
-import {Alert, DeviceEventEmitter, ScrollView, Text} from 'react-native';
+import {
+  Alert,
+  DeviceEventEmitter,
+  ScrollView,
+  Text,
+  Pressable,
+  View,
+} from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
 import {appColors} from '../../../constants/colors';
 
@@ -99,10 +106,12 @@ const HealthCheckHome = () => {
 
   const onConnected = () => {
     setConnected(true);
+    setActionLogs(prev => [...prev, 'USB connected']);
   };
 
   const onDisconnected = () => {
     setConnected(false);
+    setActionLogs(prev => [...prev, 'USB disconnected']);
   };
 
   const onReadData = data => {
@@ -140,6 +149,10 @@ const HealthCheckHome = () => {
         setActionLogs(prev => [
           ...prev,
           'Found: ' + deviceList?.length + ' devices',
+        ]);
+        setActionLogs(prev => [
+          ...prev,
+          'Devices Found: ' + JSON.stringify(deviceList),
         ]);
         setDeviceList(deviceList);
       } else {
@@ -181,10 +194,12 @@ const HealthCheckHome = () => {
   const handleConnectButton = async () => {
     const isOpen = await RNSerialport.isOpen();
     if (isOpen) {
+      setActionLogs(prev => [...prev, 'Disconnecting, USB already opened.']);
       RNSerialport.disconnect();
     } else {
       if (!selectedDevice) {
         alert('Please choose a device');
+        await fillDeviceList();
         return;
       }
       RNSerialport.setInterface(parseInt(interfaceValue, 10));
@@ -199,9 +214,9 @@ const HealthCheckHome = () => {
         //select the first divice
         setActionLogs(prev => [
           ...prev,
-          'Selecting device ' + deviceList.length - 1,
+          'Selecting device ' + deviceList[0]?.name,
         ]);
-        setSelectedDevice(deviceList[deviceList.length]);
+        setSelectedDevice(deviceList[0]);
       }
     } else {
       setActionLogs(prev => [...prev, 'USB not attached!']);
@@ -242,6 +257,10 @@ const HealthCheckHome = () => {
     setActionLogs(prev => [...prev, 'Output: ' + output]);
   };
 
+  useEffect(() => {
+    setActionLogs(prev => [...prev, 'Output: ' + output]);
+  }, [output]);
+
   return (
     <ScrollView>
       {actionLogs.map((log, index) => (
@@ -256,6 +275,13 @@ const HealthCheckHome = () => {
           {log}
         </Text>
       ))}
+      <Pressable style={{marginTop: 10}} onPress={() => fillDeviceList()}>
+        <View style={{backgroundColor: appColors.BLUE, padding: 10}}>
+          <Text style={{color: appColors.WHITE}}>
+            NB: Press and wait upto 20sec
+          </Text>
+        </View>
+      </Pressable>
     </ScrollView>
   );
 };
