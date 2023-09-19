@@ -1,17 +1,11 @@
 //@ts-nocheck
 import React, {useState, useEffect} from 'react';
-import {
-  Alert,
-  DeviceEventEmitter,
-  ScrollView,
-  Text,
-  Pressable,
-  View,
-} from 'react-native';
+import {Alert, DeviceEventEmitter, ScrollView, Text} from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
 import {appColors} from '../../../constants/colors';
+import ResultsModal from './results';
 
-const HealthCheckHome = () => {
+const TestResults = ({navigation}) => {
   const [servisStarted, setServisStarted] = useState(false);
   const [connected, setConnected] = useState(false);
   const [usbAttached, setUsbAttached] = useState(false);
@@ -36,6 +30,9 @@ const HealthCheckHome = () => {
   const [returnedDataType, setReturnedDataType] = useState(
     definitions.RETURNED_DATA_TYPES.HEXSTRING,
   );
+
+  //modal
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     startUsbListener();
@@ -241,9 +238,6 @@ const HealthCheckHome = () => {
       handleClearButton();
       handleSendButtonHex(sendHexForGettingMeasurementResults);
       setActionLogs(prev => [...prev, 'Waiting for output...']);
-      setTimeout(() => {
-        logDeviceOutput();
-      }, 3000);
     }
   }, [connected]);
 
@@ -253,37 +247,33 @@ const HealthCheckHome = () => {
     setActionLogs(prev => [...prev, 'Error: ' + error]);
   }, [error]);
 
-  const logDeviceOutput = () => {
-    setActionLogs(prev => [...prev, 'Output: ' + output]);
-  };
-
   useEffect(() => {
     setActionLogs(prev => [...prev, 'Output: ' + output]);
   }, [output]);
 
   return (
-    <ScrollView>
-      {actionLogs.map((log, index) => (
-        <Text
-          key={index}
-          style={{
-            color: appColors.BLACK,
-            padding: 10,
-            borderBottomColor: appColors.BORDER_COLOR,
-            borderBottomWidth: 1,
-          }}>
-          {log}
-        </Text>
-      ))}
-      <Pressable style={{marginTop: 10}} onPress={() => fillDeviceList()}>
-        <View style={{backgroundColor: appColors.BLUE, padding: 10}}>
-          <Text style={{color: appColors.WHITE}}>
-            NB: Press and wait upto 20sec
+    <>
+      <ScrollView>
+        {actionLogs.map((log, index) => (
+          <Text
+            key={index}
+            style={{
+              color: appColors.BLACK,
+              padding: 10,
+              borderBottomColor: appColors.BORDER_COLOR,
+              borderBottomWidth: 1,
+            }}>
+            {log}
           </Text>
-        </View>
-      </Pressable>
-    </ScrollView>
+        ))}
+      </ScrollView>
+      <ResultsModal
+        setShowModal={setShowModal}
+        showModal={showModal}
+        navigation={navigation}
+      />
+    </>
   );
 };
 
-export default HealthCheckHome;
+export default TestResults;
