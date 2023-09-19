@@ -10,6 +10,7 @@ import {
 interface Iprops extends INavigationProp {
   showModal: boolean;
   setShowModal: any;
+  result: number;
 }
 const ResultsModal = (props: Iprops) => {
   return (
@@ -35,7 +36,7 @@ const ResultsModal = (props: Iprops) => {
                 fontWeight: '600',
                 textAlign: 'center',
               }}>
-              Test result: 78
+              Test result: {props.result}
             </Text>
           </View>
           <View>

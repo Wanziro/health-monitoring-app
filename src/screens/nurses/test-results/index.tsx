@@ -1,9 +1,10 @@
 //@ts-nocheck
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Alert, DeviceEventEmitter, ScrollView, Text} from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
 import {appColors} from '../../../constants/colors';
 import ResultsModal from './results';
+import FullPageLoader from '../../full-page-loader';
 
 const TestResults = ({navigation}) => {
   const [servisStarted, setServisStarted] = useState(false);
@@ -32,7 +33,10 @@ const TestResults = ({navigation}) => {
   );
 
   //modal
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [testResult, setTestResult] = useState(0);
+  const scrollViewRef = useRef<any>(null);
 
   useEffect(() => {
     startUsbListener();
@@ -114,12 +118,20 @@ const TestResults = ({navigation}) => {
   const onReadData = data => {
     if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       const payload = RNSerialport.intArrayToUtf16(data.payload);
-      setOutput(prev => prev + ' ' + data.payload);
+      if (output.length < 32) {
+        setOutput(prev => prev + data.payload);
+      }
     } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
       const payload = RNSerialport.hexToUtf16(data.payload);
-      setOutput(prev => prev + ' ' + data.payload);
+      // setOutput(prev => prev + ' ' + data.payload);
+      if (output.length < 32) {
+        setOutput(prev => prev + data.payload);
+      }
     } else {
-      setOutput(prev => prev + ' ' + JSON.stringify(data));
+      // setOutput(prev => prev + ' ' + JSON.stringify(data));
+      if (output.length < 32) {
+        setOutput(prev => prev + JSON.stringify(data));
+      }
     }
   };
 
@@ -175,6 +187,7 @@ const TestResults = ({navigation}) => {
   const handleClearButton = () => {
     setOutput('');
     setOutputArray([]);
+    setOutput(0);
   };
 
   const checkSupport = () => {
@@ -248,12 +261,50 @@ const TestResults = ({navigation}) => {
   }, [error]);
 
   useEffect(() => {
-    setActionLogs(prev => [...prev, 'Output: ' + output]);
+    if (output.length === 32) {
+      setActionLogs(prev => [...prev, 'Output: ' + output]);
+      //calculate result
+      let firstSection = 0;
+      let secondSection = 0;
+      for (let i = 12; i <= 17; i++) {
+        let vr = Number(output[i]);
+        if (typeof vr === 'number' && !Number.isNaN(vr)) {
+          firstSection += vr;
+        }
+      }
+
+      //
+      const remeinder1 = Number(output[21]);
+      const remeinder2 = Number(output[23]);
+      const remeinder3 = Number(output[25]);
+      if (typeof remeinder1 === 'number' && !Number.isNaN(remeinder1)) {
+        secondSection += remeinder1 / 10;
+      }
+      if (typeof remeinder2 === 'number' && !Number.isNaN(remeinder2)) {
+        secondSection += remeinder2 / 100;
+      }
+      if (typeof remeinder3 === 'number' && !Number.isNaN(remeinder3)) {
+        secondSection += remeinder3 / 1000;
+      }
+      const res = firstSection + secondSection;
+      setTestResult(res);
+      //
+      if (!showModal) {
+        setIsLoading(false);
+        setShowModal(true);
+      }
+    }
   }, [output]);
 
   return (
-    <>
-      <ScrollView>
+    <View style={{flex: 1}}>
+      <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef?.current &&
+          scrollViewRef.current?.scrollToEnd({animated: true})
+        }
+        contentContainerStyle={{flexGrow: 1}}>
         {actionLogs.map((log, index) => (
           <Text
             key={index}
@@ -271,8 +322,10 @@ const TestResults = ({navigation}) => {
         setShowModal={setShowModal}
         showModal={showModal}
         navigation={navigation}
+        result={testResult}
       />
-    </>
+      <FullPageLoader isLoading={isLoading} />
+    </View>
   );
 };
 
