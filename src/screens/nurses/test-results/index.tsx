@@ -116,39 +116,37 @@ const TestResults = ({navigation}) => {
   };
 
   const onReadData = data => {
-    if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
-      const payload = RNSerialport.intArrayToUtf16(data.payload);
-      if (output.length < 32) {
-        setOutput(prev => prev + data.payload);
+    try {
+      if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
+        const payload = RNSerialport.intArrayToUtf16(data.payload);
+        if (output.length < 32) {
+          setOutput(prev => prev + data.payload);
+        }
+      } else if (
+        returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
+      ) {
+        const payload = RNSerialport.hexToUtf16(data.payload);
+        // setOutput(prev => prev + ' ' + data.payload);
+        if (output.length < 32) {
+          setOutput(prev => prev + data.payload);
+        }
+      } else {
+        // setOutput(prev => prev + ' ' + JSON.stringify(data));
+        if (output.length < 32) {
+          setOutput(prev => prev + JSON.stringify(data));
+        }
       }
-    } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
-      const payload = RNSerialport.hexToUtf16(data.payload);
-      // setOutput(prev => prev + ' ' + data.payload);
-      if (output.length < 32) {
-        setOutput(prev => prev + data.payload);
-      }
-    } else {
-      // setOutput(prev => prev + ' ' + JSON.stringify(data));
-      if (output.length < 32) {
-        setOutput(prev => prev + JSON.stringify(data));
-      }
+    } catch (error) {
+      handleClearButton();
+      setActionLogs(prev => [
+        ...prev,
+        'Error while reading device data ' + error.message,
+      ]);
     }
   };
 
   const onError = error => {
     setError(JSON.stringify(error));
-  };
-
-  const handleConvertButton = () => {
-    let data = '';
-    if (returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING) {
-      data = RNSerialport.hexToUtf16(output);
-    } else if (returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
-      data = RNSerialport.intArrayToUtf16(outputArray);
-    } else {
-      return;
-    }
-    setOutput(data);
   };
 
   const fillDeviceList = async () => {
@@ -187,18 +185,7 @@ const TestResults = ({navigation}) => {
   const handleClearButton = () => {
     setOutput('');
     setOutputArray([]);
-    setOutput(0);
-  };
-
-  const checkSupport = () => {
-    if (selectedDevice.name === undefined || selectedDevice === null) return;
-    RNSerialport.isSupported(selectedDevice.name)
-      .then(status => {
-        alert(status ? 'Supported' : 'Not Supported');
-      })
-      .catch(error => {
-        alert(JSON.stringify(error));
-      });
+    setTestResult(0);
   };
 
   const handleConnectButton = async () => {
@@ -261,38 +248,45 @@ const TestResults = ({navigation}) => {
   }, [error]);
 
   useEffect(() => {
-    if (output.length === 32) {
-      setActionLogs(prev => [...prev, 'Output: ' + output]);
-      //calculate result
-      let firstSection = 0;
-      let secondSection = 0;
-      for (let i = 12; i <= 17; i++) {
-        let vr = Number(output[i]);
-        if (typeof vr === 'number' && !Number.isNaN(vr)) {
-          firstSection += vr;
+    try {
+      if (output.length === 32) {
+        setActionLogs(prev => [...prev, 'Output: ' + output]);
+        //calculate result
+        let firstSection = 0;
+        let secondSection = 0;
+        for (let i = 12; i <= 17; i++) {
+          let vr = Number(output[i]);
+          if (typeof vr === 'number' && !Number.isNaN(vr)) {
+            firstSection += vr;
+          }
+        }
+
+        //
+        const remeinder1 = Number(output[21]);
+        const remeinder2 = Number(output[23]);
+        const remeinder3 = Number(output[25]);
+        if (typeof remeinder1 === 'number' && !Number.isNaN(remeinder1)) {
+          secondSection += remeinder1 / 10;
+        }
+        if (typeof remeinder2 === 'number' && !Number.isNaN(remeinder2)) {
+          secondSection += remeinder2 / 100;
+        }
+        if (typeof remeinder3 === 'number' && !Number.isNaN(remeinder3)) {
+          secondSection += remeinder3 / 1000;
+        }
+        const res = firstSection + secondSection;
+        setTestResult(res);
+        //
+        if (!showModal) {
+          setIsLoading(false);
+          setShowModal(true);
         }
       }
-
-      //
-      const remeinder1 = Number(output[21]);
-      const remeinder2 = Number(output[23]);
-      const remeinder3 = Number(output[25]);
-      if (typeof remeinder1 === 'number' && !Number.isNaN(remeinder1)) {
-        secondSection += remeinder1 / 10;
-      }
-      if (typeof remeinder2 === 'number' && !Number.isNaN(remeinder2)) {
-        secondSection += remeinder2 / 100;
-      }
-      if (typeof remeinder3 === 'number' && !Number.isNaN(remeinder3)) {
-        secondSection += remeinder3 / 1000;
-      }
-      const res = firstSection + secondSection;
-      setTestResult(res);
-      //
-      if (!showModal) {
-        setIsLoading(false);
-        setShowModal(true);
-      }
+    } catch (error) {
+      setActionLogs(prev => [
+        ...prev,
+        'Error while calculating the output. ' + error.message,
+      ]);
     }
   }, [output]);
 
