@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React, {useState, useEffect, useRef} from 'react';
-import {Alert, DeviceEventEmitter, ScrollView, Text} from 'react-native';
+import {Alert, DeviceEventEmitter, ScrollView, Text, View} from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
 import {appColors} from '../../../constants/colors';
 import ResultsModal from './results';
@@ -205,89 +205,122 @@ const TestResults = ({navigation}) => {
   };
 
   useEffect(() => {
-    if (usbAttached) {
-      //select device
-      if (deviceList.length > 0) {
-        //select the first divice
-        setActionLogs(prev => [
-          ...prev,
-          'Selecting device ' + deviceList[0]?.name,
-        ]);
-        setSelectedDevice(deviceList[0]);
+    let sub = true;
+    if (sub) {
+      if (usbAttached) {
+        //select device
+        if (deviceList.length > 0) {
+          //select the first divice
+          setActionLogs(prev => [
+            ...prev,
+            'Selecting device ' + deviceList[0]?.name,
+          ]);
+          setSelectedDevice(deviceList[0]);
+        }
+      } else {
+        setActionLogs(prev => [...prev, 'USB not attached!']);
       }
-    } else {
-      setActionLogs(prev => [...prev, 'USB not attached!']);
     }
+    return () => {
+      sub = false;
+    };
   }, [usbAttached, deviceList]);
 
   useEffect(() => {
-    //connect to selected device
-    if (selectedDevice !== null) {
-      setActionLogs(prev => [...prev, 'Connecting to ' + selectedDevice?.name]);
-      handleConnectButton();
-    } else {
-      setActionLogs(prev => [...prev, 'No device selected']);
+    let sub = true;
+    if (sub) {
+      //connect to selected device
+      if (selectedDevice !== null) {
+        setActionLogs(prev => [
+          ...prev,
+          'Connecting to ' + selectedDevice?.name,
+        ]);
+        handleConnectButton();
+      } else {
+        setActionLogs(prev => [...prev, 'No device selected']);
+      }
     }
+    return () => {
+      sub = false;
+    };
   }, [selectedDevice]);
 
   useEffect(() => {
-    if (connected) {
-      setActionLogs(prev => [...prev, 'Device connected']);
-      setActionLogs(prev => [...prev, 'Getting measurement results....']);
-      //clearing old value
-      handleClearButton();
-      handleSendButtonHex(sendHexForGettingMeasurementResults);
-      setActionLogs(prev => [...prev, 'Waiting for output...']);
+    let sub = true;
+    if (sub) {
+      if (connected) {
+        setActionLogs(prev => [...prev, 'Device connected']);
+        setActionLogs(prev => [...prev, 'Getting measurement results....']);
+        //clearing old value
+        handleClearButton();
+        handleSendButtonHex(sendHexForGettingMeasurementResults);
+        setActionLogs(prev => [...prev, 'Waiting for output...']);
+      }
     }
+    return () => {
+      sub = false;
+    };
   }, [connected]);
 
   useEffect(() => {
-    //logging errors
-    if (error === '') return;
-    setActionLogs(prev => [...prev, 'Error: ' + error]);
+    let sub = true;
+    if (sub) {
+      //logging errors
+      if (error === '') return;
+      setActionLogs(prev => [...prev, 'Error: ' + error]);
+    }
+    return () => {
+      sub = false;
+    };
   }, [error]);
 
   useEffect(() => {
-    try {
-      if (output.length === 32) {
-        setActionLogs(prev => [...prev, 'Output: ' + output]);
-        //calculate result
-        let firstSection = 0;
-        let secondSection = 0;
-        for (let i = 12; i <= 17; i++) {
-          let vr = Number(output[i]);
-          if (typeof vr === 'number' && !Number.isNaN(vr)) {
-            firstSection += vr;
+    let sub = true;
+    if (sub) {
+      try {
+        if (output.length === 32) {
+          setActionLogs(prev => [...prev, 'Output: ' + output]);
+          //calculate result
+          let firstSection = 0;
+          let secondSection = 0;
+          for (let i = 12; i <= 17; i++) {
+            let vr = Number(output[i]);
+            if (typeof vr === 'number' && !Number.isNaN(vr)) {
+              firstSection += vr;
+            }
+          }
+
+          //
+          const remeinder1 = Number(output[21]);
+          const remeinder2 = Number(output[23]);
+          const remeinder3 = Number(output[25]);
+          if (typeof remeinder1 === 'number' && !Number.isNaN(remeinder1)) {
+            secondSection += remeinder1 / 10;
+          }
+          if (typeof remeinder2 === 'number' && !Number.isNaN(remeinder2)) {
+            secondSection += remeinder2 / 100;
+          }
+          if (typeof remeinder3 === 'number' && !Number.isNaN(remeinder3)) {
+            secondSection += remeinder3 / 1000;
+          }
+          const res = firstSection + secondSection;
+          setTestResult(res);
+          //
+          if (!showModal) {
+            setIsLoading(false);
+            setShowModal(true);
           }
         }
-
-        //
-        const remeinder1 = Number(output[21]);
-        const remeinder2 = Number(output[23]);
-        const remeinder3 = Number(output[25]);
-        if (typeof remeinder1 === 'number' && !Number.isNaN(remeinder1)) {
-          secondSection += remeinder1 / 10;
-        }
-        if (typeof remeinder2 === 'number' && !Number.isNaN(remeinder2)) {
-          secondSection += remeinder2 / 100;
-        }
-        if (typeof remeinder3 === 'number' && !Number.isNaN(remeinder3)) {
-          secondSection += remeinder3 / 1000;
-        }
-        const res = firstSection + secondSection;
-        setTestResult(res);
-        //
-        if (!showModal) {
-          setIsLoading(false);
-          setShowModal(true);
-        }
+      } catch (error) {
+        setActionLogs(prev => [
+          ...prev,
+          'Error while calculating the output. ' + error.message,
+        ]);
       }
-    } catch (error) {
-      setActionLogs(prev => [
-        ...prev,
-        'Error while calculating the output. ' + error.message,
-      ]);
     }
+    return () => {
+      sub = false;
+    };
   }, [output]);
 
   return (
