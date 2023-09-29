@@ -29,6 +29,7 @@ import FullPageLoader from '../../full-page-loader';
 import {appColors} from '../../../constants/colors';
 import {Picker} from '@react-native-picker/picker';
 import {RootState} from '../../../reducers';
+import {fetchDepartments} from '../../../actions/departments';
 function Register({navigation}: INavigationProp) {
   const dispatch = useDispatch();
   const [names, setNames] = useState('');
@@ -41,6 +42,7 @@ function Register({navigation}: INavigationProp) {
 
   useEffect(() => {
     dispatch(resetUser());
+    dispatch(fetchDepartments());
   }, []);
 
   const handleSubmit = () => {

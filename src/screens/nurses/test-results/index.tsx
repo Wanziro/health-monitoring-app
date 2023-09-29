@@ -332,6 +332,8 @@ const TestResults = ({navigation}) => {
     };
   }, [output]);
 
+  const handleSaveResult = () => {};
+
   return (
     <View style={{flex: 1}}>
       <ScrollView

@@ -11,6 +11,7 @@ interface Iprops extends INavigationProp {
   showModal: boolean;
   setShowModal: any;
   result: number;
+  handleSaveResult: any;
 }
 const ResultsModal = (props: Iprops) => {
   return (
