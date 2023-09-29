@@ -281,13 +281,22 @@ const TestResults = ({navigation}) => {
         if (output.length === 32) {
           setActionLogs(prev => [...prev, 'Output: ' + output]);
           //calculate result
-          let firstSection = 0;
+          let firstSection = '';
           let secondSection = 0;
           for (let i = 12; i <= 17; i++) {
             let vr = Number(output[i]);
             if (typeof vr === 'number' && !Number.isNaN(vr)) {
-              firstSection += vr;
+              if (vr !== 0) {
+                firstSection += vr;
+              }
             }
+          }
+
+          //conver first section
+          if (firstSection === '') {
+            firstSection = 0;
+          } else {
+            firstSection = Number(firstSection);
           }
 
           //
