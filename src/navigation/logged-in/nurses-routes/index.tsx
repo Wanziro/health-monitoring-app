@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Pressable, View, Text} from 'react-native';
@@ -14,13 +13,13 @@ import ChangePassword from '../../../screens/profile/change-password';
 import UpdateUserInfo from '../../../screens/profile/update-user-info';
 import Profile from '../../../screens/profile';
 import DetectedPatient from '../../../screens/nurses/detected-patient';
-import TestResults from '../../../screens/nurses/test-results';
 import TestOptions from '../../../screens/nurses/test-options';
 import {INavigationProp} from '../../../interfaces';
 import GeneratedQRCode from '../../../screens/nurses/generated-qr-code';
 import ScanQRCode from '../../../screens/nurses/scan-qr-code';
 import HealthCheckHome from '../../../screens/nurses/health-check-home';
 import Confirmation from '../../../screens/nurses/confirmation';
+import TestResults from '../../../screens/test-results';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +29,7 @@ const UserRoutes = () => {
       <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
       <Stack.Navigator>
         <Stack.Screen
-          name="UserHome"
+          name="Home"
           component={Home}
           options={({route, navigation}: INavigationProp) => ({
             headerRight: () => (
