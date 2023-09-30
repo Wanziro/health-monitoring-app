@@ -4,8 +4,9 @@ import {
   ScrollView,
   Dimensions,
   ActivityIndicator,
+  ToastAndroid,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 import {LineChart} from 'react-native-chart-kit';
 import {Picker} from '@react-native-picker/picker';
@@ -87,6 +88,13 @@ export default function BloodSugar() {
                 height={220}
                 // yAxisLabel="$"
                 // yAxisSuffix="k"
+                onDataPointClick={e =>
+                  ToastAndroid.showWithGravity(
+                    'Test Value: ' + e.value,
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                  )
+                }
                 yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
                   backgroundColor: appColors.BLUE,
