@@ -31,9 +31,13 @@ export interface IDepartmentReducer {
   isLoading: boolean;
 }
 
+export type GraphOptionsType = '7days' | '14days' | 'Monthly' | 'Yearly';
 export interface ITestResultsReducer {
   patientTestResults: ITestResult[];
+  patientGraphResults: IGraphTestResults;
+  nurseGraphResults: IGraphTestResults;
   nurseTestResults: ITestResult[];
+  selectedOption: GraphOptionsType;
   isLoading: boolean;
 }
 
@@ -54,4 +58,9 @@ export interface ITestResult {
   hexCode: string;
   testValue: number;
   createdAt: string;
+}
+
+export interface IGraphTestResults {
+  data: number[];
+  labels: string[];
 }
