@@ -1,5 +1,6 @@
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {IPatient} from '../src/interfaces';
 
 export interface IDepartment {
   _id: string;
@@ -46,7 +47,7 @@ export interface IBedReducer {
   isLoading: boolean;
 }
 
-enum TEST_TYPES_ENUM {
+export enum TEST_TYPES_ENUM {
   BLOOD_SUGAR = 'Blood Sugar',
   URIC_ACID = 'Uric Acid',
 }
@@ -63,4 +64,9 @@ export interface ITestResult {
 export interface IGraphTestResults {
   data: number[];
   labels: string[];
+}
+
+export interface TestJourneyReducer {
+  selectedPatient: IPatient | undefined;
+  testType: TEST_TYPES_ENUM | undefined;
 }

@@ -6,15 +6,15 @@ import {
   commonAdminButtonContainerStyles,
   commonAdminButtonTextStyles,
 } from '../../../constants/styles';
-import {toastMessage2} from '../../../helpers';
-import {INavigationProp, IPatient} from '../../../interfaces';
+import {toastMessage} from '../../../helpers';
+import {INavigationProp} from '../../../interfaces';
+import {TEST_TYPES_ENUM} from '../../../../interfaces';
 const {width} = Dimensions.get('window');
-function TestOptions({navigation, route}: INavigationProp) {
-  const patient: IPatient = route?.params?.patient as IPatient;
+function TestOptions({navigation}: INavigationProp) {
   const [testOption, setTestOption] = useState<string>('');
   const handleDetect = () => {
     if (testOption === '') {
-      toastMessage2('error', 'Please select test item first');
+      toastMessage('error', 'Please select test item first');
     } else {
       navigation.navigate('Confirmation');
     }
@@ -44,8 +44,8 @@ function TestOptions({navigation, route}: INavigationProp) {
           }}>
           {[
             {name: 'Choose Test Item', value: ''},
-            {name: 'Blood Sugar', value: 'Blood'},
-            {name: 'Uric Acid', value: 'Uric Acid'},
+            {name: 'Blood Sugar', value: TEST_TYPES_ENUM.BLOOD_SUGAR},
+            // {name: 'Uric Acid', value: TEST_TYPES_ENUM.URIC_ACID},
           ].map((model, i) => (
             <Picker.Item key={i} label={model.name} value={model.value} />
           ))}
