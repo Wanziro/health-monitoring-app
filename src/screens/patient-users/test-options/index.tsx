@@ -9,13 +9,19 @@ import {
 import {toastMessage} from '../../../helpers';
 import {INavigationProp} from '../../../interfaces';
 import {TEST_TYPES_ENUM} from '../../../../interfaces';
+import {useDispatch} from 'react-redux';
+import {setTestJourneyType} from '../../../actions/testJourneyData';
 const {width} = Dimensions.get('window');
 function TestOptions({navigation}: INavigationProp) {
-  const [testOption, setTestOption] = useState<string>('');
+  const [testOption, setTestOption] = useState<TEST_TYPES_ENUM | undefined>(
+    undefined,
+  );
+  const dispatch = useDispatch();
   const handleDetect = () => {
-    if (testOption === '') {
+    if (testOption === undefined) {
       toastMessage('error', 'Please select test item first');
     } else {
+      dispatch(setTestJourneyType(testOption));
       navigation.navigate('Confirmation');
     }
   };
