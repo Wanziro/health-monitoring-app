@@ -371,7 +371,7 @@ const TestResults = ({navigation}: INavigationProp) => {
       .then(res => {
         setIsLoading(false);
         dispatch(resetTestJourney());
-        toastMessage('error', res.data.msg);
+        toastMessage('success', res.data.msg);
         navigation.replace('Home');
       })
       .catch(error => {
