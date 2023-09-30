@@ -6,7 +6,7 @@ import {
   commonAdminButtonContainerStyles,
   commonAdminButtonTextStyles,
 } from '../../../constants/styles';
-import {toastMessage} from '../../../helpers';
+import {toastMessage2} from '../../../helpers';
 import {INavigationProp} from '../../../interfaces';
 import {TEST_TYPES_ENUM} from '../../../../interfaces';
 import {useDispatch} from 'react-redux';
@@ -19,7 +19,7 @@ function TestOptions({navigation}: INavigationProp) {
   const dispatch = useDispatch();
   const handleDetect = () => {
     if (testOption === undefined) {
-      toastMessage('error', 'Please select test item first');
+      toastMessage2('error', 'Please select test item first');
     } else {
       dispatch(setTestJourneyType(testOption));
       navigation.navigate('Confirmation');

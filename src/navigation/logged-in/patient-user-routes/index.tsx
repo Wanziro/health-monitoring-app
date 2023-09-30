@@ -11,11 +11,11 @@ import DetectionMenu from '../../../screens/patient-users/detection-menu';
 import ChangePassword from '../../../screens/profile/change-password';
 import UpdateUserInfo from '../../../screens/profile/update-user-info';
 import Profile from '../../../screens/profile';
-import TestResults from '../../../screens/patient-users/test-results';
 import TestOptions from '../../../screens/patient-users/test-options';
 import {INavigationProp} from '../../../interfaces';
 import HealthCheckHome from '../../../screens/patient-users/health-check-home';
 import Confirmation from '../../../screens/patient-users/confirmation';
+import TestResults from '../../../screens/test-results';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +25,7 @@ const UserRoutes = () => {
       <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
       <Stack.Navigator>
         <Stack.Screen
-          name="UserHome"
+          name="Home"
           component={Home}
           options={({route, navigation}: INavigationProp) => ({
             headerRight: () => (

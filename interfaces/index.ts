@@ -70,3 +70,9 @@ export interface TestJourneyReducer {
   selectedPatient: IPatient | undefined;
   testType: TEST_TYPES_ENUM | undefined;
 }
+
+export enum USER_ROLES_ENUM {
+  ADMIN = 'admin',
+  NURSE = 'nurse',
+  USER = 'user',
+}

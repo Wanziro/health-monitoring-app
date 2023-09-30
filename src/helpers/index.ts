@@ -22,7 +22,10 @@ export const useLoadBasicData = (): any => {
   };
 };
 
-export const toastMessage = (type: string, message: string) => {
+export const toastMessage = (
+  type: 'info' | 'error' | 'success',
+  message: string,
+) => {
   if (type == 'info') {
     Toast.show({
       type: 'info',
@@ -49,7 +52,10 @@ export const toastMessage = (type: string, message: string) => {
   }
 };
 
-export const toastMessage2 = (type: string, message: string) => {
+export const toastMessage2 = (
+  type: 'info' | 'error' | 'success',
+  message: string,
+) => {
   if (type == 'info') {
     Dialog.show({
       type: ALERT_TYPE.WARNING,

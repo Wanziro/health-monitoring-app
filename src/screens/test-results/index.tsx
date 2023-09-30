@@ -2,17 +2,33 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Alert, DeviceEventEmitter, ScrollView, Text, View} from 'react-native';
 import {RNSerialport, definitions, actions} from 'react-native-serialport';
-import {appColors} from '../../../constants/colors';
+import {appColors} from '../../constants/colors';
 import ResultsModal from './results';
-import FullPageLoader from '../../full-page-loader';
+import FullPageLoader from '../full-page-loader';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../reducers';
+import axios from 'axios';
+import {app} from '../../constants/app';
+import {errorHandler2, setHeaders, toastMessage} from '../../helpers';
+import {INavigationProp} from '../../interfaces';
+import {resetTestJourney} from '../../actions/testJourneyData';
+import {USER_ROLES_ENUM} from '../../../interfaces';
 
-const TestResults = ({navigation, route}) => {
+const TestResults = ({navigation}: INavigationProp) => {
+  const dispatch = useDispatch();
+  //test type
+  const {token, role} = useSelector((state: RootState) => state.user);
+  const {testType, selectedPatient} = useSelector(
+    (state: RootState) => state.testJourneyData,
+  );
+  //
+
   const [servisStarted, setServisStarted] = useState(false);
   const [connected, setConnected] = useState(false);
   const [usbAttached, setUsbAttached] = useState(false);
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
-  const [actionLogs, setActionLogs] = useState([]);
+  const [actionLogs, setActionLogs] = useState<string[]>([]);
   const [outputArray, setOutputArray] = useState([]);
   const [baudRate, setBaudRate] = useState('9600');
   const [interfaceValue, setInterfaceValue] = useState('-1');
@@ -91,6 +107,7 @@ const TestResults = ({navigation, route}) => {
 
   const onServiceStopped = () => {
     setServisStarted(false);
+    setIsLoading(false);
     Alert.alert('service stopped');
   };
 
@@ -178,7 +195,7 @@ const TestResults = ({navigation, route}) => {
   //   RNSerialport.writeString(sendText);
   // };
 
-  const handleSendButtonHex = hexCode => {
+  const handleSendButtonHex = (hexCode: string) => {
     RNSerialport.writeHexString(hexCode);
   };
 
@@ -195,7 +212,7 @@ const TestResults = ({navigation, route}) => {
       RNSerialport.disconnect();
     } else {
       if (!selectedDevice) {
-        alert('Please choose a device');
+        Alert.alert('Error', 'Please choose a device');
         await fillDeviceList();
         return;
       }
@@ -281,7 +298,7 @@ const TestResults = ({navigation, route}) => {
         if (output.length === 32) {
           setActionLogs(prev => [...prev, 'Output: ' + output]);
           //calculate result
-          let firstSection = '';
+          let firstSection: string | number = '';
           let secondSection = 0;
           for (let i = 12; i <= 17; i++) {
             let vr = Number(output[i]);
@@ -320,10 +337,10 @@ const TestResults = ({navigation, route}) => {
             setShowModal(true);
           }
         }
-      } catch (error) {
+      } catch (error: any) {
         setActionLogs(prev => [
           ...prev,
-          'Error while calculating the output. ' + error.message,
+          'Error while calculating the output. ' + error?.message,
         ]);
       }
     }
@@ -332,7 +349,36 @@ const TestResults = ({navigation, route}) => {
     };
   }, [output]);
 
-  const handleSaveResult = () => {};
+  const handleSaveResult = () => {
+    setShowModal(false);
+    setIsLoading(true);
+
+    const url =
+      role === USER_ROLES_ENUM.USER
+        ? app.backendUrl + '/tests/patient'
+        : app.backendUrl + '/tests/nurse';
+    const data =
+      role === USER_ROLES_ENUM.USER
+        ? {testType, hexCode: output, testValue: testResult}
+        : {
+            testType,
+            hexCode: output,
+            testValue: testResult,
+            patientId: selectedPatient?._id,
+          };
+    axios
+      .post(url, data, setHeaders(token))
+      .then(res => {
+        setIsLoading(false);
+        dispatch(resetTestJourney());
+        toastMessage('error', res.data.msg);
+        navigation.replace('Home');
+      })
+      .catch(error => {
+        setIsLoading(false);
+        errorHandler2(error);
+      });
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -361,6 +407,7 @@ const TestResults = ({navigation, route}) => {
         showModal={showModal}
         navigation={navigation}
         result={testResult}
+        handleSaveResult={handleSaveResult}
       />
       <FullPageLoader isLoading={isLoading} />
     </View>

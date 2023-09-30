@@ -1,11 +1,11 @@
 import {View, Text, Modal, Pressable} from 'react-native';
 import React from 'react';
-import {appColors} from '../../../../constants/colors';
-import {INavigationProp} from '../../../../interfaces';
+import {appColors} from '../../../constants/colors';
+import {INavigationProp} from '../../../interfaces';
 import {
   commonAdminButtonContainerStyles,
   commonAdminButtonTextStyles,
-} from '../../../../constants/styles';
+} from '../../../constants/styles';
 
 interface Iprops extends INavigationProp {
   showModal: boolean;
@@ -63,7 +63,7 @@ const ResultsModal = (props: Iprops) => {
                 </View>
               </Pressable>
               <Pressable
-                // onPress={() => props.navigation.navigate('TestOptions')}
+                onPress={() => props.handleSaveResult()}
                 style={{width: '45%'}}>
                 <View style={[commonAdminButtonContainerStyles]}>
                   <Text style={[commonAdminButtonTextStyles]}>Yes</Text>
