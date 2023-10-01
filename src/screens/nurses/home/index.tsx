@@ -101,61 +101,68 @@ function Home({navigation}: INavigationProp) {
               </View>
             ) : (
               patientsToShow.map((patient, index) => (
-                <View
+                <Pressable
                   key={index}
-                  style={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: appColors.BORDER_COLOR,
-                    padding: 10,
-                  }}>
-                  <View style={[viewFlexSpace]}>
-                    <View style={{flex: 1, paddingRight: 10}}>
-                      <Text style={{color: appColors.BLACK}}>
-                        {patient.names}
-                      </Text>
-                      <View style={[viewFlexSpace]}>
-                        <Text style={{color: appColors.BLACK}}>Deparment:</Text>
-                        <Text
-                          style={{
-                            color: appColors.TEXT_COLOR,
-                            flex: 1,
-                            paddingLeft: 5,
-                          }}>
-                          {returnDepartmentName(patient.departmentId)}
+                  onPress={() =>
+                    navigation.navigate('SinglePatientInfo', {patient})
+                  }>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: appColors.BORDER_COLOR,
+                      padding: 10,
+                    }}>
+                    <View style={[viewFlexSpace]}>
+                      <View style={{flex: 1, paddingRight: 10}}>
+                        <Text style={{color: appColors.BLACK}}>
+                          {patient.names}
                         </Text>
+                        <View style={[viewFlexSpace]}>
+                          <Text style={{color: appColors.BLACK}}>
+                            Deparment:
+                          </Text>
+                          <Text
+                            style={{
+                              color: appColors.TEXT_COLOR,
+                              flex: 1,
+                              paddingLeft: 5,
+                            }}>
+                            {returnDepartmentName(patient.departmentId)}
+                          </Text>
+                        </View>
+                        <View style={[viewFlexSpace]}>
+                          <Text style={{color: appColors.BLACK}}>Sex:</Text>
+                          <Text
+                            style={{
+                              color: appColors.TEXT_COLOR,
+                              flex: 1,
+                              paddingLeft: 5,
+                            }}>
+                            {patient.sex}
+                          </Text>
+                        </View>
+                        <View style={[viewFlexSpace]}>
+                          <Text style={{color: appColors.BLACK}}>Age:</Text>
+                          <Text
+                            style={{
+                              color: appColors.TEXT_COLOR,
+                              flex: 1,
+                              paddingLeft: 5,
+                            }}>
+                            {patient.ages}
+                          </Text>
+                        </View>
                       </View>
-                      <View style={[viewFlexSpace]}>
-                        <Text style={{color: appColors.BLACK}}>Sex:</Text>
-                        <Text
-                          style={{
-                            color: appColors.TEXT_COLOR,
-                            flex: 1,
-                            paddingLeft: 5,
-                          }}>
-                          {patient.sex}
-                        </Text>
+                      <View>
+                        <Icon
+                          name="rightcircleo"
+                          size={30}
+                          color={appColors.BLACK}
+                        />
                       </View>
-                      <View style={[viewFlexSpace]}>
-                        <Text style={{color: appColors.BLACK}}>Age:</Text>
-                        <Text
-                          style={{
-                            color: appColors.TEXT_COLOR,
-                            flex: 1,
-                            paddingLeft: 5,
-                          }}>
-                          {patient.ages}
-                        </Text>
-                      </View>
-                    </View>
-                    <View>
-                      <Icon
-                        name="rightcircleo"
-                        size={30}
-                        color={appColors.BLACK}
-                      />
                     </View>
                   </View>
-                </View>
+                </Pressable>
               ))
             )}
           </View>

@@ -20,6 +20,7 @@ import ScanQRCode from '../../../screens/nurses/scan-qr-code';
 import HealthCheckHome from '../../../screens/nurses/health-check-home';
 import Confirmation from '../../../screens/nurses/confirmation';
 import TestResults from '../../../screens/test-results';
+import SinglePatientInfo from '../../../screens/nurses/single-patient-information';
 
 const Stack = createNativeStackNavigator();
 
@@ -164,6 +165,15 @@ const UserRoutes = () => {
           component={ScanQRCode}
           options={{
             title: 'SCAN CODE',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="SinglePatientInfo"
+          component={SinglePatientInfo}
+          options={{
+            title: 'Patient information',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}
