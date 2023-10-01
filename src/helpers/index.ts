@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ALERT_TYPE, Dialog} from 'react-native-alert-notification';
 import {fetchDepartments} from '../actions/departments';
 import {fetchBeds} from '../actions/beds';
+import {fetchPatients} from '../actions/patients';
 
 //custom dispatcher hook
 export const useResetUser = (): any => {
@@ -19,6 +20,7 @@ export const useLoadBasicData = (): any => {
   return (payload: any) => {
     dispatch(fetchDepartments());
     dispatch(fetchBeds());
+    dispatch(fetchPatients());
   };
 };
 
