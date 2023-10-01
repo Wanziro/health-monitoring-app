@@ -47,6 +47,11 @@ export interface IBedReducer {
   isLoading: boolean;
 }
 
+export interface IPatientReducer {
+  patients: IPatient[];
+  isLoading: boolean;
+}
+
 export enum TEST_TYPES_ENUM {
   BLOOD_SUGAR = 'Blood Sugar',
   URIC_ACID = 'Uric Acid',
