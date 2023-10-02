@@ -1,7 +1,6 @@
-import React from 'react'; 
-import {StatusBar,  } from 'react-native';
+import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Pressable, View, Text} from 'react-native';
 
 import Home from '../../../screens/patient-users/home';
@@ -16,13 +15,21 @@ import HealthCheckHome from '../../../screens/patient-users/health-check-home';
 import Confirmation from '../../../screens/patient-users/confirmation';
 import TestResults from '../../../screens/test-results';
 
-const Stack = createNativeStackNavigator();
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 const UserRoutes = () => {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}>
         <Stack.Screen
           name="Home"
           component={Home}
