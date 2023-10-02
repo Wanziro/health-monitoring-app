@@ -192,7 +192,7 @@ function Home({navigation}: INavigationProp) {
         </ScrollView>
       </View>
       <View style={{padding: 10, width: '100%'}}>
-        <Pressable onPress={() => navigation.navigate('HealthCheckHome')}>
+        <Pressable onPress={() => navigation.navigate('DetectionMenu')}>
           <View style={[commonAdminButtonContainerStyles]}>
             <Text style={[commonAdminButtonTextStyles]}>HEALTH CHECK</Text>
           </View>

@@ -1,6 +1,6 @@
 //@ts-nocheck
-import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, View, Alert} from 'react-native';
 import {Camera} from 'react-native-vision-camera';
 const ScanQRCode = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
@@ -10,7 +10,7 @@ const ScanQRCode = () => {
   };
 
   useEffect(() => {
-    alert(qrCode);
+    if (qrCode !== null) Alert.alert('QR Code', qrCode);
   }, [qrCode]);
 
   return (
