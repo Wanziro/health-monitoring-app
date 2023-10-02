@@ -23,7 +23,6 @@ import SinglePatientInfo from '../../../screens/nurses/single-patient-informatio
 
 import {
   createStackNavigator,
-  TransitionPresets,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 
