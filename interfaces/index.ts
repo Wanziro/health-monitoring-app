@@ -58,6 +58,7 @@ export enum TEST_TYPES_ENUM {
 }
 
 export interface ITestResult {
+  _id: string;
   nurseId: string | null;
   patientId: string;
   testType: TEST_TYPES_ENUM;
