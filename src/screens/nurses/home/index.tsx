@@ -5,6 +5,7 @@ import {
   Pressable,
   ScrollView,
   ActivityIndicator,
+  RefreshControl,
   Dimensions,
 } from 'react-native';
 import {useSelector} from 'react-redux';
@@ -28,21 +29,23 @@ function Home({navigation}: INavigationProp) {
   );
   const loadData = useLoadBasicData();
 
+  const [refreshing, setRefreshing] = useState(false);
   const [activeDepartment, setActiveDepartment] = useState('');
   const [patientsToShow, setPatientsToShow] = useState<IPatient[]>([]);
-
-  const returnDepartmentName = (depId: string) => {
-    let name = '';
-    const department = departments.find(item => item._id === depId);
-    if (department) {
-      name = department.name;
-    }
-    return name;
-  };
 
   useEffect(() => {
     loadData();
   }, []);
+
+  useEffect(() => {
+    let sub = true;
+    if (sub) {
+      !isLoading && refreshing && setRefreshing(false);
+    }
+    return () => {
+      sub = false;
+    };
+  }, [isLoading]);
 
   useEffect(() => {
     if (activeDepartment === '') {
@@ -53,6 +56,21 @@ function Home({navigation}: INavigationProp) {
       );
     }
   }, [activeDepartment]);
+
+  const returnDepartmentName = (depId: string) => {
+    let name = '';
+    const department = departments.find(item => item._id === depId);
+    if (department) {
+      name = department.name;
+    }
+    return name;
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    loadData();
+  };
+
   return (
     <View
       style={{
@@ -93,7 +111,11 @@ function Home({navigation}: INavigationProp) {
           </ScrollView>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <View style={{paddingVertical: 10, width}}>
             {isLoading ? (
               <View style={[viewFlexCenter]}>
@@ -114,7 +136,8 @@ function Home({navigation}: INavigationProp) {
                     }}>
                     <View style={[viewFlexSpace]}>
                       <View style={{flex: 1, paddingRight: 10}}>
-                        <Text style={{color: appColors.BLACK}}>
+                        <Text
+                          style={{color: appColors.BLACK, fontWeight: '600'}}>
                           {patient.names}
                         </Text>
                         <View style={[viewFlexSpace]}>
