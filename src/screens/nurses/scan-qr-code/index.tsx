@@ -8,7 +8,11 @@ const ScanQRCode = () => {
 
   const onQRCodeRead = (qrCode: any) => {
     setQrCode(qrCode);
-    Alert.alert('QR Code', qrCode);
+    try {
+      Alert.alert('QR Code: ', qrCode.data);
+    } catch (error) {
+      Alert.alert('QR Code: ', JSON.stringify(qrCode));
+    }
   };
 
   return (
