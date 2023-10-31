@@ -10,7 +10,7 @@ import {INavigationProp} from '../../../interfaces';
 
 const ScanQRCode = ({navigation}: INavigationProp) => {
   const [qrCode, setQrCode] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onQRCodeRead = async (qrCode: any) => {
     setQrCode(qrCode);
@@ -22,7 +22,7 @@ const ScanQRCode = ({navigation}: INavigationProp) => {
         ToastAndroid.CENTER,
       );
       const req = await axios.get(app.backendUrl + '/patients/' + qrCode.data);
-      setIsLoading(true);
+      setIsLoading(false);
       navigation.navigate('DetectedPatient', {patient: req.data.patient});
     } catch (error) {
       setIsLoading(false);

@@ -4,7 +4,7 @@ import React from 'react';
 import {LineChart} from 'react-native-chart-kit';
 import {appColors} from '../../../../constants/colors';
 import {IGraphTestResults} from '../../../../../interfaces';
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 interface Iprops {
   data: IGraphTestResults;
@@ -25,7 +25,7 @@ export default function BloodSugar({data}: Iprops) {
                 ],
               }}
               width={width} // from react-native
-              height={220}
+              height={height - 300}
               // yAxisLabel="$"
               // yAxisSuffix="k"
               onDataPointClick={e =>
