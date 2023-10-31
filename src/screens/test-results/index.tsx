@@ -9,7 +9,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../reducers';
 import axios from 'axios';
 import {app} from '../../constants/app';
-import {errorHandler2, setHeaders, toastMessage} from '../../helpers';
+import {
+  errorHandler2,
+  setHeaders,
+  toastMessage,
+  toastMessage2,
+} from '../../helpers';
 import {INavigationProp} from '../../interfaces';
 import {resetTestJourney} from '../../actions/testJourneyData';
 import {USER_ROLES_ENUM} from '../../../interfaces';
@@ -350,34 +355,38 @@ const TestResults = ({navigation}: INavigationProp) => {
   }, [output]);
 
   const handleSaveResult = () => {
-    setShowModal(false);
-    setIsLoading(true);
+    try {
+      setShowModal(false);
+      setIsLoading(true);
 
-    const url =
-      role === USER_ROLES_ENUM.USER
-        ? app.backendUrl + '/tests/patient'
-        : app.backendUrl + '/tests/nurse';
-    const data =
-      role === USER_ROLES_ENUM.USER
-        ? {testType, hexCode: output, testValue: testResult}
-        : {
-            testType,
-            hexCode: output,
-            testValue: testResult,
-            patientId: selectedPatient?._id,
-          };
-    axios
-      .post(url, data, setHeaders(token))
-      .then(res => {
-        setIsLoading(false);
-        dispatch(resetTestJourney());
-        toastMessage('success', res.data.msg);
-        navigation.replace('Home');
-      })
-      .catch(error => {
-        setIsLoading(false);
-        errorHandler2(error);
-      });
+      const url =
+        role === USER_ROLES_ENUM.USER
+          ? app.backendUrl + '/tests/patient'
+          : app.backendUrl + '/tests/nurse';
+      const data =
+        role === USER_ROLES_ENUM.USER
+          ? {testType, hexCode: output, testValue: testResult}
+          : {
+              testType,
+              hexCode: output,
+              testValue: testResult,
+              patientId: selectedPatient?._id,
+            };
+      axios
+        .post(url, data, setHeaders(token))
+        .then(res => {
+          setIsLoading(false);
+          dispatch(resetTestJourney());
+          toastMessage('success', res.data.msg);
+          navigation.replace('Home');
+        })
+        .catch(error => {
+          setIsLoading(false);
+          errorHandler2(error);
+        });
+    } catch (error) {
+      toastMessage2(error);
+    }
   };
 
   return (
