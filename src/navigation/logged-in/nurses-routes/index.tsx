@@ -42,7 +42,7 @@ const UserRoutes = () => {
           options={({route, navigation}: INavigationProp) => ({
             headerRight: () => (
               <Pressable onPress={() => navigation.navigate('Profile')}>
-                <View>
+                <View style={{marginRight: 10}}>
                   <Text style={{color: appColors.WHITE}}>Profile</Text>
                 </View>
               </Pressable>

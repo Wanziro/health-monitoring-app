@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   ToastAndroid,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import React, {useEffect} from 'react';
 
 import {LineChart} from 'react-native-chart-kit';
@@ -19,7 +20,7 @@ import {
   setSelectedTestOption,
 } from '../../../../actions/testResults';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 export default function BloodSugar() {
   const dispatch = useDispatch();
   const {isLoading, patientGraphResults, selectedOption} = useSelector(
@@ -71,8 +72,8 @@ export default function BloodSugar() {
           <ActivityIndicator size={50} color={appColors.BLUE} />
         </View>
       ) : (
-        <ScrollView horizontal>
-          <View>
+        <LinearGradient colors={['#ffa726', appColors.BLUE]} style={{flex: 1}}>
+          <ScrollView horizontal>
             {patientGraphResults.labels.length > 0 &&
             patientGraphResults.data.length > 0 ? (
               <LineChart
@@ -85,7 +86,7 @@ export default function BloodSugar() {
                   ],
                 }}
                 width={width} // from react-native
-                height={220}
+                height={height / 2}
                 // yAxisLabel="$"
                 // yAxisSuffix="k"
                 onDataPointClick={e =>
@@ -125,8 +126,8 @@ export default function BloodSugar() {
                 <Text style={{color: appColors.BLACK}}>No data found.</Text>
               </View>
             )}
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </LinearGradient>
       )}
     </>
   );
