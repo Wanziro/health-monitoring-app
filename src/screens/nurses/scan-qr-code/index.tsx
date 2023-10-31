@@ -1,17 +1,32 @@
 import React, {useState} from 'react';
-import {Text, View, Alert} from 'react-native';
+import {View, Alert, ToastAndroid} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
+import FullPageLoader from '../../full-page-loader';
+import {errorHandler2} from '../../../helpers';
+import axios from 'axios';
+import {app} from '../../../constants/app';
+import {INavigationProp} from '../../../interfaces';
 
-const ScanQRCode = () => {
+const ScanQRCode = ({navigation}: INavigationProp) => {
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const onQRCodeRead = (qrCode: any) => {
+  const onQRCodeRead = async (qrCode: any) => {
     setQrCode(qrCode);
     try {
-      Alert.alert('QR Code: ', qrCode.data);
+      setIsLoading(true);
+      ToastAndroid.showWithGravity(
+        qrCode.data,
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+      const req = await axios.get(app.backendUrl + '/patients/' + qrCode.data);
+      setIsLoading(true);
+      navigation.navigate('DetectedPatient', {patient: req.data.patient});
     } catch (error) {
-      Alert.alert('QR Code: ', JSON.stringify(qrCode));
+      setIsLoading(false);
+      errorHandler2(error);
     }
   };
 
@@ -20,8 +35,8 @@ const ScanQRCode = () => {
       <QRCodeScanner
         onRead={onQRCodeRead}
         flashMode={RNCamera.Constants.FlashMode.torch}
-        reactivate={true} //to scann multiple times
-        reactivateTimeout={500}
+        // reactivate={true} //to scann multiple times
+        // reactivateTimeout={500}
         // topContent={<Text>some tests</Text>}
         // bottomContent={
         //   <TouchableOpacity style={styles.buttonTouchable}>
@@ -29,6 +44,7 @@ const ScanQRCode = () => {
         //   </TouchableOpacity>
         // }
       />
+      <FullPageLoader isLoading={isLoading} />
     </View>
   );
 };
