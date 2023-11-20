@@ -9,17 +9,12 @@ import {
   commonAdminButtonContainerStyles,
   commonAdminButtonTextStyles,
 } from '../../../constants/styles';
+import {toastMessage2} from '../../../helpers';
 const {width} = Dimensions.get('window');
-function GeneratedQRCode({navigation, route}: INavigationProp) {
+function GeneratedQRCode({route}: INavigationProp) {
   const patient: IPatient = route?.params?.patient as IPatient;
   const qrCodeRef = useRef();
   const [QRImage, setQRImage] = React.useState('');
-
-  const GenerateQR = () => {
-    qrCodeRef.current.toDataURL(data => {
-      setQRImage('data:image/png;base64,' + data);
-    });
-  };
 
   const handleShare = async () => {
     qrCodeRef.current.toDataURL(data => {
@@ -32,7 +27,8 @@ function GeneratedQRCode({navigation, route}: INavigationProp) {
     try {
       await Share.open(options);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      toastMessage2(err);
     }
   };
 
@@ -45,13 +41,13 @@ function GeneratedQRCode({navigation, route}: INavigationProp) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <QRCode getRef={qrCodeRef} size={width - 100} value={[{...patient}]} />
+      <QRCode getRef={qrCodeRef} size={width - 100} value={patient._id} />
 
-      {/* <Pressable onPress={() => handleShare()}>
+      <Pressable onPress={() => handleShare()}>
         <View style={[commonAdminButtonContainerStyles]}>
           <Text style={[commonAdminButtonTextStyles]}>Share QRCODE</Text>
         </View>
-      </Pressable> */}
+      </Pressable>
     </View>
   );
 }

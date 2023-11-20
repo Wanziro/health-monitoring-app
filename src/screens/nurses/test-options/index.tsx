@@ -7,15 +7,21 @@ import {
   commonAdminButtonTextStyles,
 } from '../../../constants/styles';
 import {toastMessage2} from '../../../helpers';
-import {INavigationProp, IPatient} from '../../../interfaces';
+import {INavigationProp} from '../../../interfaces';
+import {TEST_TYPES_ENUM} from '../../../../interfaces';
+import {useDispatch} from 'react-redux';
+import {setTestJourneyType} from '../../../actions/testJourneyData';
 const {width} = Dimensions.get('window');
-function TestOptions({navigation, route}: INavigationProp) {
-  const patient: IPatient = route?.params?.patient as IPatient;
-  const [testOption, setTestOption] = useState<string>('');
+function TestOptions({navigation}: INavigationProp) {
+  const [testOption, setTestOption] = useState<TEST_TYPES_ENUM | undefined>(
+    undefined,
+  );
+  const dispatch = useDispatch();
   const handleDetect = () => {
-    if (testOption === '') {
+    if (testOption === undefined) {
       toastMessage2('error', 'Please select test item first');
     } else {
+      dispatch(setTestJourneyType(testOption));
       navigation.navigate('Confirmation');
     }
   };
@@ -44,8 +50,8 @@ function TestOptions({navigation, route}: INavigationProp) {
           }}>
           {[
             {name: 'Choose Test Item', value: ''},
-            {name: 'Blood Sugar', value: 'Blood Sugar'},
-            {name: 'Uric Acid', value: 'Uric Acid'},
+            {name: 'Blood Sugar', value: TEST_TYPES_ENUM.BLOOD_SUGAR},
+            // {name: 'Uric Acid', value: TEST_TYPES_ENUM.URIC_ACID},
           ].map((model, i) => (
             <Picker.Item key={i} label={model.name} value={model.value} />
           ))}

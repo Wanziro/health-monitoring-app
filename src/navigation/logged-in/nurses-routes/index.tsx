@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Pressable, View, Text} from 'react-native';
 
 import Home from '../../../screens/nurses/home';
@@ -14,28 +12,37 @@ import ChangePassword from '../../../screens/profile/change-password';
 import UpdateUserInfo from '../../../screens/profile/update-user-info';
 import Profile from '../../../screens/profile';
 import DetectedPatient from '../../../screens/nurses/detected-patient';
-import TestResults from '../../../screens/nurses/test-results';
 import TestOptions from '../../../screens/nurses/test-options';
 import {INavigationProp} from '../../../interfaces';
 import GeneratedQRCode from '../../../screens/nurses/generated-qr-code';
 import ScanQRCode from '../../../screens/nurses/scan-qr-code';
 import HealthCheckHome from '../../../screens/nurses/health-check-home';
 import Confirmation from '../../../screens/nurses/confirmation';
+import TestResults from '../../../screens/test-results';
+import SinglePatientInfo from '../../../screens/nurses/single-patient-information';
 
-const Stack = createNativeStackNavigator();
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 const UserRoutes = () => {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}>
         <Stack.Screen
-          name="UserHome"
+          name="Home"
           component={Home}
           options={({route, navigation}: INavigationProp) => ({
             headerRight: () => (
               <Pressable onPress={() => navigation.navigate('Profile')}>
-                <View>
+                <View style={{marginRight: 10}}>
                   <Text style={{color: appColors.WHITE}}>Profile</Text>
                 </View>
               </Pressable>
@@ -165,6 +172,15 @@ const UserRoutes = () => {
           component={ScanQRCode}
           options={{
             title: 'SCAN CODE',
+            headerTintColor: appColors.WHITE,
+            headerStyle: {backgroundColor: appColors.BLUE},
+          }}
+        />
+        <Stack.Screen
+          name="SinglePatientInfo"
+          component={SinglePatientInfo}
+          options={{
+            title: 'Patient information',
             headerTintColor: appColors.WHITE,
             headerStyle: {backgroundColor: appColors.BLUE},
           }}

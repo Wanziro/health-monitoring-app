@@ -7,14 +7,18 @@ import {
   ActivityIndicator,
   Pressable,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {app} from '../../../constants/app';
 import {appColors} from '../../../constants/colors';
 import {errorHandler} from '../../../helpers';
 import {INavigationProp, IPatient} from '../../../interfaces';
 import {RootState} from '../../../reducers';
+import {setTestJourneySelectedPatient} from '../../../actions/testJourneyData';
+import {viewFlexSpace} from '../../../constants/styles';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 function ChoosePatient({navigation}: INavigationProp) {
+  const dispatch = useDispatch();
   const {token} = useSelector((state: RootState) => state.user);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [patients, setPatients] = useState<IPatient[]>([]);
@@ -55,12 +59,21 @@ function ChoosePatient({navigation}: INavigationProp) {
                   borderBottomWidth: 1,
                 }}>
                 <Pressable
-                  onPress={() =>
-                    navigation.navigate('DetectedPatient', {patient: item})
-                  }>
-                  <Text style={{color: appColors.BLACK}}>
-                    {item.names} , {item.ages} ages
-                  </Text>
+                  onPress={() => {
+                    dispatch(setTestJourneySelectedPatient(item));
+                    navigation.navigate('DetectedPatient', {patient: item});
+                  }}>
+                  <View style={[viewFlexSpace]}>
+                    <Text
+                      style={{
+                        color: appColors.BLACK,
+                        flex: 1,
+                        paddingRight: 10,
+                      }}>
+                      {item.names} , {item.ages} ages
+                    </Text>
+                    <Icon name="right" color={appColors.BLACK} size={20} />
+                  </View>
                 </Pressable>
               </View>
             ))}

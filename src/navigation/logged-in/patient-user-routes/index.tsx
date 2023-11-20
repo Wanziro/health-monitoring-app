@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Pressable, View, Text} from 'react-native';
 
 import Home from '../../../screens/patient-users/home';
@@ -11,26 +9,34 @@ import DetectionMenu from '../../../screens/patient-users/detection-menu';
 import ChangePassword from '../../../screens/profile/change-password';
 import UpdateUserInfo from '../../../screens/profile/update-user-info';
 import Profile from '../../../screens/profile';
-import TestResults from '../../../screens/patient-users/test-results';
 import TestOptions from '../../../screens/patient-users/test-options';
 import {INavigationProp} from '../../../interfaces';
 import HealthCheckHome from '../../../screens/patient-users/health-check-home';
 import Confirmation from '../../../screens/patient-users/confirmation';
+import TestResults from '../../../screens/test-results';
 
-const Stack = createNativeStackNavigator();
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 const UserRoutes = () => {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={appColors.BLUE} barStyle="light-content" />
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}>
         <Stack.Screen
-          name="UserHome"
+          name="Home"
           component={Home}
           options={({route, navigation}: INavigationProp) => ({
             headerRight: () => (
               <Pressable onPress={() => navigation.navigate('Profile')}>
-                <View>
+                <View style={{marginRight: 10}}>
                   <Text style={{color: appColors.WHITE}}>Profile</Text>
                 </View>
               </Pressable>

@@ -7,18 +7,15 @@ import {
   Pressable,
   SafeAreaView,
   Dimensions,
-  Linking,
   Alert,
-  ToastAndroid,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {resetUser} from '../../actions/user';
-import {errorHandler, toastMessage} from '../../helpers';
 import FullPageLoader from '../full-page-loader';
-import Axios from 'axios';
 import {INavigationProp} from '../../interfaces';
 import {RootState} from '../../reducers';
 import {appColors} from '../../constants/colors';
+import {resetTestResults} from '../../actions/testResults';
 const {width, height} = Dimensions.get('window');
 function Profile({navigation}: INavigationProp) {
   const userObj = useSelector((state: RootState) => state.user);
@@ -27,6 +24,7 @@ function Profile({navigation}: INavigationProp) {
 
   const handleLogout = () => {
     dispatch(resetUser());
+    dispatch(resetTestResults());
   };
 
   return (
@@ -109,7 +107,18 @@ function Profile({navigation}: INavigationProp) {
                   }}></View>
               </>
             )}
-            <Pressable onPress={() => handleLogout()}>
+            <Pressable
+              onPress={() =>
+                Alert.alert(
+                  'Warning',
+                  'Do you want logout?',
+                  [
+                    {text: 'Cancel', style: 'cancel'},
+                    {text: 'Yes, Logout', onPress: () => handleLogout()},
+                  ],
+                  {cancelable: true},
+                )
+              }>
               <View
                 style={{
                   alignItems: 'center',

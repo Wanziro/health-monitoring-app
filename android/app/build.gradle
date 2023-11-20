@@ -100,6 +100,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
 
     splits {
@@ -148,6 +149,12 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','.aar'])
     // The version of react-native is set by the React Native Gradle Plugin
@@ -155,6 +162,9 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko-common:0.8.3"
     implementation project(':react-native-serialport')
+    implementation(name: 'usbserial-6.0.5-release', ext: 'aar')
+
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 
@@ -173,3 +183,4 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

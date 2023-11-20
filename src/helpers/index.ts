@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ALERT_TYPE, Dialog} from 'react-native-alert-notification';
 import {fetchDepartments} from '../actions/departments';
 import {fetchBeds} from '../actions/beds';
+import {fetchPatients} from '../actions/patients';
 
 //custom dispatcher hook
 export const useResetUser = (): any => {
@@ -19,10 +20,14 @@ export const useLoadBasicData = (): any => {
   return (payload: any) => {
     dispatch(fetchDepartments());
     dispatch(fetchBeds());
+    dispatch(fetchPatients());
   };
 };
 
-export const toastMessage = (type: string, message: string) => {
+export const toastMessage = (
+  type: 'info' | 'error' | 'success',
+  message: string,
+) => {
   if (type == 'info') {
     Toast.show({
       type: 'info',
@@ -49,7 +54,10 @@ export const toastMessage = (type: string, message: string) => {
   }
 };
 
-export const toastMessage2 = (type: string, message: string) => {
+export const toastMessage2 = (
+  type: 'info' | 'error' | 'success',
+  message: string,
+) => {
   if (type == 'info') {
     Dialog.show({
       type: ALERT_TYPE.WARNING,
